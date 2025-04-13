@@ -1,34 +1,34 @@
 
-/* General Reset and Base Styles */
+/* Base styles (light fantasy theme) */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f6f8;
-    color: #2c3e50;
+    background-color: #fdf6e3;
+    color: #1a1c1f;
+    transition: all 0.3s ease;
 }
 
 h1, h2, h3 {
-    color: #2c3e50;
+    color: #1a1c1f;
     margin-bottom: 0.5em;
 }
 
 a {
-    color: #1e90ff;
+    color: #c69c6d;
     text-decoration: none;
 }
 a:hover {
     text-decoration: underline;
 }
 
-/* Header and Navigation */
+/* Header and Nav */
 header {
-    background-color: #2c3e50;
+    background-color: #3e6259;
     color: white;
     padding: 1rem 2rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 header h1 {
     margin: 0;
     font-size: 1.8rem;
@@ -50,62 +50,110 @@ header h1 {
     font-size: 1rem;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: #1a252f;
-    border-radius: 4px;
-}
+    .navbar a:hover, .dropdown:hover .dropbtn {
+        background-color: #3e6259;
+        border-radius: 4px;
+    }
 
 .dropdown {
     position: relative;
     display: inline-block;
 }
-
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #34495e;
+    background-color: #3e6259;
     min-width: 160px;
     z-index: 1;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     border-radius: 4px;
 }
-
 .dropdown-content a {
     color: white;
     padding: 0.5rem 1rem;
     display: block;
 }
-
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
-/* Main Content */
+/* Content */
 main {
     padding: 2rem;
     max-width: 900px;
     margin: auto;
-    background-color: white;
+    background-color: #ffffff;
     border-radius: 6px;
     margin-top: 2rem;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
-
-.container section {
-    margin-bottom: 2rem;
-}
-
 ul {
     padding-left: 1.2rem;
     line-height: 1.6;
 }
+.container section {
+    margin-bottom: 2rem;
+}
 
 /* Footer */
 footer {
-    background-color: #2c3e50;
+    background-color: #3e4b4e;
     color: white;
     text-align: center;
     padding: 1rem;
     margin-top: 3rem;
     font-size: 0.9rem;
 }
+
+/* THEME SWITCHING: Bold & Dev */
+body.dark-mode {
+    background-color: #121212;
+    color: #eeeeee;
+}
+body.dark-mode main {
+    background-color: #1e1e1e;
+}
+body.dark-mode header,
+body.dark-mode footer {
+    background-color: #1a1a1a;
+}
+body.dark-mode .navbar a,
+body.dark-mode .dropbtn {
+    color: #ff7f11;
+}
+body.dark-mode .navbar a:hover,
+body.dark-mode .dropdown:hover .dropbtn {
+    background-color: #2a2a2a;
+}
+body.dark-mode .dropdown-content {
+    background-color: #2a2a2a;
+}
+body.dark-mode .dropdown-content a {
+    color: #ff7f11;
+}
+body.dark-mode a {
+    color: #ff7f11;
+}
+    /* Fix site title and header readability in dark mode */
+    body.dark-mode .site-title {
+        color: #ff7f11; /* vibrant orange for title */
+    }
+
+    body.dark-mode h1,
+    body.dark-mode h2,
+    body.dark-mode h3 {
+        color: #ffffff; /* clean white headers */
+    }
+
+    /* Optional: bright hover for nav */
+    body.dark-mode .navbar a:hover,
+    body.dark-mode .dropdown:hover .dropbtn {
+        background-color: #292929;
+    }
+
+    /* Optional: main content paragraph text */
+    body.dark-mode p,
+    body.dark-mode li,
+    body.dark-mode ul {
+        color: #e0e0e0;
+    }

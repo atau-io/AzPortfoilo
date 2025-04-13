@@ -77,7 +77,7 @@
 </head>
 <body>
     <header>
-        <h1>Designs and Creations by Andrew Talarico</h1>
+        <h1>ATau Realms - Builder of Things</h1>
         <div class="navbar">
             <a href="/">Home</a>
             <div class="dropdown">
@@ -90,15 +90,24 @@
             </div>
             <a href="#" onclick="loadPage('submitform.html')">Submit an Issue</a>
             <div class="dropdown">
-                <button class="dropbtn">Google API Information</button>
+                <button class="dropbtn">Developer Tools</button>
                 <div class="dropdown-content">
                     <a href="ELA.html">EULA</a>
                     <a href="privacy.html">Privacy Policy</a>
-                    <a href="">Youtube Overview</a>
+                    <a href="">Google Cloud / Gmail Integration</a>
+                    <a href="">QuickBooks API</a>
                 </div>
-              </div>
-           </div>
-</header>
+            </div>
+        </div>
+
+        <button onclick="toggleTheme()" style="position:absolute;top:1rem;right:2rem;">Toggle Theme</button>
+
+        <script>
+            function toggleTheme() {
+                document.body.classList.toggle('dark-mode');
+            }
+        </script>
+    </header>
 
     <main id="content">
         <div class="container">
@@ -125,6 +134,7 @@
 
     <footer>
         <p>&copy; 2023 Andrew Talarico</p>
+
     </footer>
 
     <script>function loadPage(url) {
