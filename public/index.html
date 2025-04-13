@@ -7,18 +7,7 @@
     <link rel="stylesheet" href="ATauFullStyle.css">
 </head>
 <body>
-    <header>
-        <div id="navbar-placeholder"></div>
-
-        <script>
-            fetch('navbar.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navbar-placeholder').innerHTML = data;
-                });
-        </script>
-
-    </header>
+    <header id="navbar-placeholder"></header>
 
     <main id="content">
         <div class="container">
@@ -35,7 +24,7 @@
                     Feel free to get in touch with me. If you have a bug/error to submit, please use <a href="#" onclick="loadPage('submitform.html')">this form</a>. Otherwise, you can reach me at:
                 </p>
                 <ul>
-                  <!--  <li><a href="mailto:atau.realmforge@gmail.com">atau.realmforge@gmail.com</a></li> -->
+                    <!--  <li><a href="mailto:atau.realmforge@gmail.com">atau.realmforge@gmail.com</a></li> -->
                     <li><a href="https://www.linkedin.com/in/andrew-talarico-bbb77b31/">LinkedIn</a></li>
                     <li><a href="https://soundcloud.com/yourusername">SoundCloud</a></li>
                 </ul>
@@ -48,9 +37,10 @@
 
     </footer>
 
-    <script>function loadPage(url) {
+    <script>
+    function loadPage(url) {
             var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
+            xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     document.getElementById("content").innerHTML = this.responseText;
                 }
@@ -58,5 +48,22 @@
             xhttp.open("GET", url, true);
             xhttp.send();
         }</script>
+
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-placeholder').innerHTML = data;
+
+                // 🛠️ Reattach event listeners (like toggleTheme) if needed
+                const toggleBtn = document.querySelector('button[onclick="toggleTheme()"]');
+                if (toggleBtn) {
+                    toggleBtn.addEventListener('click', () => {
+                        document.body.classList.toggle('dark-mode');
+                    });
+                }
+            });
+    </script>
+
 </body>
 </html>
