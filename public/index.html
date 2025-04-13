@@ -3,9 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Go Away</title>
+    <title>Andrew Talarico</title>
+    <link rel="stylesheet" type="text/css" href="navBarStyle.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1em 2em;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            margin-top: 1em;
+        }
+
+            .navbar a, .dropbtn {
+                color: white;
+                text-decoration: none;
+                padding: 0.5em 1em;
+            }
+
+                .navbar a:hover, .dropdown:hover .dropbtn {
+                    background-color: #34495e;
+                }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #34495e;
+            min-width: 160px;
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                display: block;
+                color: white;
+                padding: 0.5em 1em;
+                text-decoration: none;
+            }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        main {
+            padding: 2em;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1em;
+            margin-top: 2em;
+        }
+    </style>
 </head>
 <body>
-    <h1>Go away!</h1>
+    <header>
+        <h1>Designs and Creations by Andrew Talarico</h1>
+        <div class="navbar">
+            <a href="/">Home</a>
+            <div class="dropdown">
+                <button class="dropbtn">Showcase</button>
+                <div class="dropdown-content">
+                    <a href="#">Excel</a>
+                    <a href="#">Programming</a>
+                    <a href="#" onclick="loadPage('page2.html')">RPG</a>
+                </div>
+            </div>
+            <a href="#" onclick="loadPage('submitform.html')">Submit an Issue</a>
+            <a href="ELA.html">EULA</a>
+        </div>
+    </header>
+
+    <main id="content">
+        <div class="container">
+            <section id="introduction">
+                <h2>About Me</h2>
+                <p>
+                    Versatile and reliable beginner developer, eager to enter the software field. Extremely quick learner with a strong passion for software development. Always asking "How can I make this better?" Excited to gain hands-on experience and contribute to projects from start to finish. Ready to collaborate effectively with teams and help streamline processes for better consistency and efficiency.
+                </p>
+            </section>
+
+            <section id="contact">
+                <h2>Contact Me</h2>
+                <p>
+                    Feel free to get in touch with me. If you have a bug/error to submit, please use <a href="#" onclick="loadPage('submitform.html')">this form</a>. Otherwise, you can reach me at:
+                </p>
+                <ul>
+                    <li><a href="mailto:atau.realmforge@gmail.com">atau.realmforge@gmail.com</a></li>
+                    <li><a href="https://www.linkedin.com/in/andrew-talarico-bbb77b31/">LinkedIn</a></li>
+                    <li><a href="https://soundcloud.com/yourusername">SoundCloud</a></li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Andrew Talarico</p>
+    </footer>
+
+    <script>function loadPage(url) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById("content").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }</script>
 </body>
 </html>
