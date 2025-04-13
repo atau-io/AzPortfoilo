@@ -1,0 +1,32 @@
+﻿<div class="site-title-wrapper">
+    <img src="images/atauLogo.png" alt="ATau Logo" class="logo-glow">
+    <h1 class="site-title">ATau Realms – Builder of Things</h1>
+</div>
+
+<div class="navbar">
+    <a href="index.html">Home</a>
+    <div class="dropdown">
+        <button class="dropbtn">Showcase</button>
+        <div class="dropdown-content">
+            <a target="_blank" rel="noopener noreferrer" href="#">Excel</a>
+            <a target="_blank" rel="noopener noreferrer" href="#">Programming</a>
+            <a target="_blank" rel="noopener noreferrer" href="#" onclick="loadPage('page2.html')">RPG</a>
+        </div>
+    </div>
+    <a target="_blank" rel="noopener noreferrer" href="#" onclick="loadPage('submitform.html')">Submit an Issue</a>
+    <div class="dropdown">
+        <button class="dropbtn">Developer Tools</button>
+        <div class="dropdown-content">
+            <a target="_blank" rel="noopener noreferrer" href="ELA.html">EULA</a>
+            <a target="_blank" rel="noopener noreferrer" href="privacy.html">Privacy Policy</a>
+            <a target="_blank" rel="noopener noreferrer" href="">Google Cloud / Gmail Integration</a>
+            <a target="_blank" rel="noopener noreferrer" href="">QuickBooks API</a>
+        </div>
+    </div>
+</div>
+
+<button onclick="toggleTheme()" style="position:absolute;top:1rem;right:2rem;">Toggle Theme</button>
+
+<script>function toggleTheme() {
+                document.body.classList.toggle('dark-mode');
+            }</script>
