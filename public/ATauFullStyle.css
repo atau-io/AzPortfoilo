@@ -229,6 +229,8 @@ body.dark-mode footer {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 150px;
+    max-height: 220px;
 }
 
     .showcase-tile:hover {
@@ -242,6 +244,7 @@ body.dark-mode footer {
     height: 48px;
     margin-bottom: 1rem;
     stroke: #ff7f11;
+    flex-shrink: 0;
 }
 
 .tile-overlay {
