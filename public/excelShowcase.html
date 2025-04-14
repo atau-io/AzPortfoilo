@@ -58,14 +58,18 @@
 
             </section>
         </div>
+
+        <div id="project-details" class="project-details hidden">
+            <button id="close-details" class="close-btn">&times;</button>
+            <div id="project-content">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+
     </main>
 
-    <footer>
-        <p>&copy; 2025 Andrew Talarico</p>
-
-    </footer>
-
-    <script>function loadPage(url) {
+    <script>
+    function loadPage(url) {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -76,7 +80,8 @@
             xhttp.send();
         }</script>
 
-    <script>// Load navbar dynamically
+    <script>
+    // Load navbar dynamically
         fetch('navbar.html')
             .then(response => response.text())
             .then(data => {
@@ -122,6 +127,45 @@
             xhttp.open("GET", url, true);
             xhttp.send();
         }</script>
+    <script>
+        const showcaseTiles = document.querySelectorAll('.showcase-tile');
+        const detailsPanel = document.getElementById('project-details');
+        const contentContainer = document.getElementById('project-content');
+        const closeBtn = document.getElementById('close-details');
+
+        const projectData = {
+            "Inventory Tracker": `
+                <h2>Inventory Tracker</h2>
+                <p>A fully automated inventory and order system using Excel macros and Google Sheets.</p>
+                <ul>
+                    <li>Realtime stock tracking</li>
+                    <li>PDF order reports</li>
+                    <li>Integrated with email</li>
+                </ul>
+            `,
+            "Project 2": `
+                <h2>Project 2</h2>
+                <p>Some other cool thing with fancy tricks.</p>
+            `,
+            "Project 3": `
+                <h2>Project 3</h2>
+                <p>Work in progress with dark magic macros ⚔️</p>
+            `
+        };
+
+        showcaseTiles.forEach(tile => {
+            tile.addEventListener('click', (e) => {
+                e.preventDefault();
+                const title = tile.querySelector('.tile-overlay').textContent.trim();
+                contentContainer.innerHTML = projectData[title] || "<p>Details coming soon.</p>";
+                detailsPanel.classList.remove('hidden');
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            detailsPanel.classList.add('hidden');
+        });
+    </script>
 
 
 </body>
