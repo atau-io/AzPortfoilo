@@ -154,9 +154,13 @@ body.dark-mode {
     color: #eeeeee;
 }
 
-body.dark-mode main {
-    background-color: #1e1e1e;
-}
+    body.dark-mode main {
+        background-color: #202020;
+    }
+
+    body.dark-mode .showcase-tile {
+        background-color: #2a2a2a;
+    }
 
 body.dark-mode .navbar a,
 body.dark-mode .dropbtn,
@@ -251,3 +255,8 @@ body.dark-mode footer {
     font-weight: bold;
     font-size: 1.1rem;
 }
+
+body.dark-mode .showcase-tile:hover {
+    background-color: #333333;
+}
+
