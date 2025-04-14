@@ -9,6 +9,17 @@ body {
     transition: all 0.3s ease;
 }
 
+.chevron-icon {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+.dropdown:hover .chevron-icon {
+    transform: rotate(180deg) scale(1.2);
+}
+
+
 main {
     padding: 2rem;
     max-width: 900px;
