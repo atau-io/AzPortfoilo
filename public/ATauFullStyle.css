@@ -208,3 +208,43 @@ body.dark-mode footer {
         max-height: 50px;
     }
 }
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+}
+
+.showcase-tile {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    padding: 1.5rem 1rem;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+    .showcase-tile:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        background-color: #292929;
+    }
+
+.tile-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    stroke: #ff7f11;
+}
+
+.tile-overlay {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
