@@ -7,7 +7,7 @@ const urlMap = {
     "Weekly Review": "partials/endofweekreview.html"
 };
 
-// ========== DISPLAY A PROJECT ==========
+// ========== LOAD AND DISPLAY A PROJECT ==========
 function showProject(index) {
     if (index < 0 || index >= projectTitles.length) return;
 
@@ -32,10 +32,10 @@ function updateArrowVisibility() {
     const prev = document.getElementById('prev-project');
     const next = document.getElementById('next-project');
 
-    if (prev && next) {
-        prev.style.visibility = currentProjectIndex === 0 ? 'hidden' : 'visible';
-        next.style.visibility = currentProjectIndex === projectTitles.length - 1 ? 'hidden' : 'visible';
-    }
+    if (!prev || !next) return;
+
+    prev.style.visibility = currentProjectIndex === 0 ? 'hidden' : 'visible';
+    next.style.visibility = currentProjectIndex === projectTitles.length - 1 ? 'hidden' : 'visible';
 }
 
 // ========== TILE CLICK EVENTS ==========
@@ -49,8 +49,8 @@ function attachShowcaseListeners() {
     });
 }
 
-// ========== CLOSE + ARROW LISTENERS ==========
-function attachOverlayControls() {
+// ========== CLOSE AND ARROW BUTTONS ==========
+function attachNavButtons() {
     const closeBtn = document.getElementById('close-details');
     const prevBtn = document.getElementById('prev-project');
     const nextBtn = document.getElementById('next-project');
@@ -65,29 +65,25 @@ function attachOverlayControls() {
 
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
-            if (currentProjectIndex > 0) {
-                showProject(currentProjectIndex - 1);
-            }
+            if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
         });
     }
 
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
-            if (currentProjectIndex < projectTitles.length - 1) {
-                showProject(currentProjectIndex + 1);
-            }
+            if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
         });
     }
 }
 
-// ========== THEME ==========
+// ========== THEME TOGGLE ==========
 function toggleTheme() {
     document.body.classList.toggle('dark-mode');
     const isDark = document.body.classList.contains('dark-mode');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
-// ========== PAGE LOADER ==========
+// ========== PAGE CONTENT LOADER ==========
 function loadPage(url) {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -100,9 +96,9 @@ function loadPage(url) {
     xhttp.send();
 }
 
-// ========== INIT ==========
+// ========== INITIAL SETUP ==========
 document.addEventListener("DOMContentLoaded", () => {
-    // Load navbar
+    // Inject navbar
     fetch('navbar.html')
         .then(response => response.text())
         .then(data => {
@@ -120,11 +116,12 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-    // Apply dark mode if saved
-    if (localStorage.getItem('theme') === 'dark') {
+    // Apply saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
     }
 
     attachShowcaseListeners();
-    attachOverlayControls();
+    attachNavButtons();
 });
