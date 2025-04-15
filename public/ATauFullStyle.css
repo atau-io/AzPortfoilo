@@ -343,3 +343,47 @@ body.dark-mode #project-content {
     .project-details.show {
         display: block;
     }
+/* Default (light theme) popup */
+.project-details {
+    background-color: rgba(0, 0, 0, 0.7); /* softened for light mode */
+}
+
+#project-content {
+    background-color: #ffffff;
+    color: #1a1c1f;
+}
+
+/* Dark mode popup overrides */
+body.dark-mode .project-details {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+body.dark-mode #project-content {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+body.dark-mode .project-box {
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+.project-box {
+    background-color: #fff;
+    color: #111;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+}
+
+.image-placeholder {
+    background: linear-gradient(45deg, #ccc, #eee);
+    height: 150px;
+    border-radius: 8px;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    color: #777;
+}

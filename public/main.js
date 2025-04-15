@@ -1,23 +1,21 @@
-﻿// ========== Global Project Data ==========
-const projectData = {
-    "Inventory Tracker": `
-        <h2>Inventory Tracker</h2>
-        <p>A fully automated inventory and order system using Excel macros and Google Sheets.</p>
-        <ul>
-            <li>Realtime stock tracking</li>
-            <li>PDF order reports</li>
-            <li>Integrated with email</li>
-        </ul>
-    `,
-    "Project 2": `
-        <h2>Project 2</h2>
-        <p>Some other cool thing with fancy tricks.</p>
-    `,
-    "Project 3": `
-        <h2>Project 3</h2>
-        <p>Work in progress with dark magic macros ⚔️</p>
-    `
-};
+﻿
+function loadPartial(url, container) {
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            container.innerHTML = html;
+
+            // Reattach the close button logic again since the content was replaced
+            const closeBtn = document.getElementById('close-details');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    document.getElementById('project-details').classList.remove('show');
+                    document.getElementById('project-details').classList.add('hidden');
+                });
+            }
+        });
+}
+
 
 // ========== Attach Showcase Popout Events ==========
 function attachShowcaseListeners() {
@@ -31,21 +29,20 @@ function attachShowcaseListeners() {
     showcaseTiles.forEach(tile => {
         tile.addEventListener('click', (e) => {
             e.preventDefault();
-            const title = tile.querySelector('.tile-overlay')?.textContent.trim();
-            if (projectData[title]) {
-                contentContainer.innerHTML = projectData[title];
+            const title = tile.querySelector('.tile-overlay').textContent.trim();
+            const urlMap = {
+                "Inventory Tracker": "partials/inventorybridge.html",
+                "Custom Order Guide": "partials/orderguide.html",
+                "Weekly Review": "partials/endofweekreview.html"
+            };
+            if (urlMap[title]) {
+                loadPartial(urlMap[title], contentContainer);
                 detailsPanel.classList.remove('hidden');
                 detailsPanel.classList.add('show');
             }
         });
-    });
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            detailsPanel.classList.remove('show');
-            detailsPanel.classList.add('hidden');
-        });
-    }
+    });
 }
 
 // ========== Theme Toggle ==========
