@@ -5,41 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fantasy RPG Generator</title>
-    <link rel="stylesheet" href="css/AtauFullStyle.css">
+    <link rel="stylesheet" href="css/ATauFullStyle.css">
 </head>
 <body>
     <header id="navbar-placeholder"></header>
 
     <main>
-        <h2>Random Dragon Generator</h2>
-        <button onclick="generateDragon()">Summon Dragon</button>
-        <div id="dragon-output" style="margin-top: 1rem; font-size: 1.1rem;"></div>
+        <h2>🐉 Random Dragon Generator</h2>
+        <button onclick="generateDragon()" style="padding: 0.5rem 1rem; font-size: 1rem;">Summon Dragon</button>
+        <div id="dragon-output" class="project-box" style="margin-top: 1.5rem; opacity: 0; transition: opacity 0.5s;"></div>
+
     </main>
 
-    <footer>
-        <p>&copy; 2025 Andrew Talarico</p>
-    </footer>
+    <script src="main.js" defer></script>
+    <script>
+        const types = ["Fire", "Ice", "Storm", "Shadow", "Earth", "Crystal"];
+        const colors = ["Red", "Blue", "Black", "White", "Green", "Gold"];
+        const attacks = ["Flame Breath", "Ice Shard", "Lightning Bolt", "Void Pulse", "Rock Slam", "Blinding Flash"];
 
-    <script>const types = ["Fire", "Ice", "Storm", "Shadow", "Earth", "Crystal"];
-    const colors = ["Red", "Blue", "Black", "White", "Green", "Gold"];
-    const attacks = ["Flame Breath", "Ice Shard", "Lightning Bolt", "Void Pulse", "Rock Slam", "Blinding Flash"];
+        function generateDragon() {
+            const type = types[Math.floor(Math.random() * types.length)];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const attack = attacks[Math.floor(Math.random() * attacks.length)];
+            const hp = Math.floor(Math.random() * 300) + 200;
 
-    function generateDragon() {
-      const type = types[Math.floor(Math.random() * types.length)];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const attack = attacks[Math.floor(Math.random() * attacks.length)];
-      const hp = Math.floor(Math.random() * 300) + 200;
-
-      const output = `
+            const output = `
         <strong>Type:</strong> ${type}<br>
         <strong>Color:</strong> ${color}<br>
         <strong>Special Attack:</strong> ${attack}<br>
         <strong>HP:</strong> ${hp} HP
-      `;
+    `;
 
-      document.getElementById('dragon-output').innerHTML = output;
-    }</script>
+            const display = document.getElementById('dragon-output');
+            display.style.opacity = 0; // Reset fade
+            setTimeout(() => {
+                display.innerHTML = output;
+                display.style.opacity = 1; // Fade in new dragon
+            }, 150);
+        }
 
-    <script src="main.js" defer></script>
+    </script>
+
 </body>
 </html>
