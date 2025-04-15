@@ -65,13 +65,13 @@ function attachNavButtons() {
 
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
-            if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
+            showProject(currentProjectIndex - 1);
         });
     }
 
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
-            if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
+            showProject(currentProjectIndex + 1);
         });
     }
 }
@@ -122,6 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add('dark-mode');
     }
 
+    // Attach event handlers
     attachShowcaseListeners();
     attachNavButtons();
 });
