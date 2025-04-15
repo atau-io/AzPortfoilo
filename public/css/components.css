@@ -1,51 +1,32 @@
 
-/* ========== Component Styles ========== */
-.navbar {
+/* ========== Components ========== */
+footer {
+    background-color: #3e4b4e;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+.chevron-icon {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+    transform-origin: center;
+}
+
+.dropdown:hover .chevron-icon {
+    transform: rotate(180deg) scale(1.2);
+}
+
+.image-placeholder {
+    background: linear-gradient(45deg, #ccc, #eee);
+    height: 150px;
+    border-radius: 8px;
+    margin-top: 1rem;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1rem;
+    align-items: center;
+    font-style: italic;
+    color: #777;
 }
-
-.navbar a, .dropbtn {
-    background: none;
-    color: #ff7f11;
-    padding: 0.6rem 1rem;
-    font-size: 1rem;
-    text-decoration: none;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.3s ease;
-}
-
-.navbar a:hover, .dropbtn:hover {
-    background-color: rgba(255, 127, 17, 0.1);
-}
-
-.dropdown {
-    position: relative;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #333;
-    border-radius: 8px;
-    padding: 0.5rem 0;
-    z-index: 10;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown-content a {
-    color: white;
-    padding: 0.5rem 1rem;
-    display: block;
-    text-decoration: none;
-}
-    
