@@ -1,0 +1,50 @@
+
+/* ========== Header, Footer, and Buttons ========== */
+.site-title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+}
+
+.site-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+footer {
+    background-color: #3e4b4e;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    font-size: 2rem;
+    background: none;
+    color: #ff7f11;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    background: none;
+    color: #ff7f11;
+    border: none;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+.left-arrow { left: 1rem; }
+.right-arrow { right: 1rem; }
+.nav-arrow:hover { color: #ffa94d; }
