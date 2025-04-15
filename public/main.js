@@ -9,11 +9,10 @@ const urlMap = {
 
 // ========== LOAD PARTIAL ==========
 function showProject(index) {
-    const contentContainer = document.getElementById('project-content');
-    const detailsPanel = document.getElementById('project-details');
-
     if (index < 0 || index >= projectTitles.length) return;
 
+    const contentContainer = document.getElementById('project-content');
+    const detailsPanel = document.getElementById('project-details');
     const title = projectTitles[index];
     currentProjectIndex = index;
 
@@ -24,34 +23,8 @@ function showProject(index) {
             detailsPanel.classList.remove('hidden');
             detailsPanel.classList.add('show');
             updateArrowVisibility();
-
-            // Close button
-            const closeBtn = document.getElementById('close-details');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', () => {
-                    detailsPanel.classList.remove('show');
-                    detailsPanel.classList.add('hidden');
-                });
-            }
-
-            // Arrow buttons — MUST be added after partial content is loaded
-            const prevBtn = document.getElementById('prev-project');
-            const nextBtn = document.getElementById('next-project');
-
-            if (prevBtn) {
-                prevBtn.addEventListener('click', () => {
-                    if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
-                });
-            }
-
-            if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
-                });
-            }
         });
 }
-
 
 // ========== SHOW/HIDE NAV ARROWS ==========
 function updateArrowVisibility() {
@@ -89,7 +62,7 @@ function loadPage(url) {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             document.getElementById("content").innerHTML = this.responseText;
-            attachShowcaseListeners(); // Ensure popout listeners reattach
+            attachShowcaseListeners();
         }
     };
     xhttp.open("GET", url, true);
@@ -124,4 +97,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     attachShowcaseListeners();
 
+    // Close Button (attach once)
+    const closeBtn = document.getElementById('close-details');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            document.getElementById('project-details').classList.remove('show');
+            document.getElementById('project-details').classList.add('hidden');
+        });
+    }
+
+    // Arrows (attach once)
+    const prevBtn = document.getElementById('prev-project');
+    const nextBtn = document.getElementById('next-project');
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
+        });
+    }
 });
