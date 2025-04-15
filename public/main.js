@@ -26,19 +26,27 @@ function loadPartial(url, container) {
         });
 }
 
-// ========== SHOW PROJECT ==========
 function showProject(index) {
     const contentContainer = document.getElementById('project-content');
     const detailsPanel = document.getElementById('project-details');
+
     const title = projectTitles[index];
     currentProjectIndex = index;
 
     if (urlMap[title]) {
-        loadPartial(urlMap[title], contentContainer);
-        detailsPanel.classList.remove('hidden');
-        detailsPanel.classList.add('show');
+        fetch(urlMap[title])
+            .then(res => res.text())
+            .then(html => {
+                contentContainer.innerHTML = html;
+
+                // Don't move this into loadPartial() anymore
+                updateArrowVisibility();
+                detailsPanel.classList.remove('hidden');
+                detailsPanel.classList.add('show');
+            });
     }
 }
+
 
 // ========== SHOW/HIDE NAV ARROWS ==========
 function updateArrowVisibility() {
