@@ -12,27 +12,27 @@ function showProject(index) {
     const contentContainer = document.getElementById('project-content');
     const detailsPanel = document.getElementById('project-details');
 
+    if (index < 0 || index >= projectTitles.length) return;
+
     const title = projectTitles[index];
     currentProjectIndex = index;
 
-    if (urlMap[title]) {
-        fetch(urlMap[title])
-            .then(res => res.text())
-            .then(html => {
-                contentContainer.innerHTML = html;
-                detailsPanel.classList.remove('hidden');
-                detailsPanel.classList.add('show');
-                updateArrowVisibility();
+    fetch(urlMap[title])
+        .then(res => res.text())
+        .then(html => {
+            contentContainer.innerHTML = html;
+            detailsPanel.classList.remove('hidden');
+            detailsPanel.classList.add('show');
+            updateArrowVisibility();
 
-                const closeBtn = document.getElementById('close-details');
-                if (closeBtn) {
-                    closeBtn.addEventListener('click', () => {
-                        detailsPanel.classList.remove('show');
-                        detailsPanel.classList.add('hidden');
-                    });
-                }
-            });
-    }
+            const closeBtn = document.getElementById('close-details');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    detailsPanel.classList.remove('show');
+                    detailsPanel.classList.add('hidden');
+                });
+            }
+        });
 }
 
 // ========== SHOW/HIDE NAV ARROWS ==========
@@ -71,7 +71,7 @@ function loadPage(url) {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             document.getElementById("content").innerHTML = this.responseText;
-            attachShowcaseListeners();
+            attachShowcaseListeners(); // Ensure popout listeners reattach
         }
     };
     xhttp.open("GET", url, true);
@@ -106,12 +106,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     attachShowcaseListeners();
 
-    // Attach arrow listeners once
-    document.getElementById('prev-project')?.addEventListener('click', () => {
-        if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
-    });
+    // Attach arrow listeners ONCE — don't nest them in showProject
+    const prevBtn = document.getElementById('prev-project');
+    const nextBtn = document.getElementById('next-project');
 
-    document.getElementById('next-project')?.addEventListener('click', () => {
-        if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
-    });
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
+        });
+    }
 });
