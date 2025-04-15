@@ -1,6 +1,4 @@
-﻿// main.js
-
-// ========== Project Popout Data ==========
+﻿// ========== Global Project Data ==========
 const projectData = {
     "Inventory Tracker": `
         <h2>Inventory Tracker</h2>
@@ -21,7 +19,7 @@ const projectData = {
     `
 };
 
-// ========== Attach Showcase Event Listeners ==========
+// ========== Attach Showcase Popout Events ==========
 function attachShowcaseListeners() {
     const showcaseTiles = document.querySelectorAll('.showcase-tile');
     const detailsPanel = document.getElementById('project-details');
@@ -33,7 +31,7 @@ function attachShowcaseListeners() {
     showcaseTiles.forEach(tile => {
         tile.addEventListener('click', (e) => {
             e.preventDefault();
-            const title = tile.querySelector('.tile-overlay').textContent.trim();
+            const title = tile.querySelector('.tile-overlay')?.textContent.trim();
             if (projectData[title]) {
                 contentContainer.innerHTML = projectData[title];
                 detailsPanel.classList.remove('hidden');
@@ -50,39 +48,38 @@ function attachShowcaseListeners() {
     }
 }
 
-// ========== Toggle Theme ==========
+// ========== Theme Toggle ==========
 function toggleTheme() {
     document.body.classList.toggle('dark-mode');
     const isDark = document.body.classList.contains('dark-mode');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
-// ========== Load Partial Page ==========
+// ========== Page Loader ==========
 function loadPage(url) {
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             document.getElementById("content").innerHTML = this.responseText;
-            attachShowcaseListeners(); // Reattach popout logic after load
+            attachShowcaseListeners(); // Re-attach logic to loaded content
         }
     };
     xhttp.open("GET", url, true);
     xhttp.send();
 }
 
-// ========== Run After DOM is Ready ==========
+// ========== DOM Ready ==========
 document.addEventListener("DOMContentLoaded", () => {
-    // Inject navbar
+    // Load navbar
     fetch('navbar.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('navbar-placeholder').innerHTML = data;
 
-            // Dark mode toggle from navbar
+            // Re-attach nav links
             const toggleBtn = document.getElementById('toggleThemeBtn');
             if (toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
 
-            // Handle dynamic page links
             document.querySelectorAll('.load-link').forEach(link => {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -92,12 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-    // Load dark mode preference
+    // Apply dark mode
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
     }
 
-    // Activate showcase popouts
+    // Attach showcase popout
     attachShowcaseListeners();
 });
