@@ -7,12 +7,12 @@ const urlMap = {
     "Weekly Review": "partials/endofweekreview.html"
 };
 
-// ========== LOAD PROJECT CONTENT ==========
+// ========== LOAD PARTIAL ==========
 function showProject(index) {
     const contentContainer = document.getElementById('project-content');
     const detailsPanel = document.getElementById('project-details');
-    const title = projectTitles[index];
 
+    const title = projectTitles[index];
     currentProjectIndex = index;
 
     if (urlMap[title]) {
@@ -23,29 +23,39 @@ function showProject(index) {
                 detailsPanel.classList.remove('hidden');
                 detailsPanel.classList.add('show');
                 updateArrowVisibility();
+
+                const closeBtn = document.getElementById('close-details');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        detailsPanel.classList.remove('show');
+                        detailsPanel.classList.add('hidden');
+                    });
+                }
             });
     }
-}
-
-// ========== ATTACH TILE CLICK EVENTS ==========
-function attachShowcaseListeners() {
-    const showcaseTiles = document.querySelectorAll('.showcase-tile');
-    showcaseTiles.forEach((tile, i) => {
-        tile.addEventListener('click', (e) => {
-            e.preventDefault();
-            showProject(i);
-        });
-    });
 }
 
 // ========== SHOW/HIDE NAV ARROWS ==========
 function updateArrowVisibility() {
     const prev = document.getElementById('prev-project');
     const next = document.getElementById('next-project');
+
     if (!prev || !next) return;
 
     prev.style.visibility = currentProjectIndex === 0 ? 'hidden' : 'visible';
     next.style.visibility = currentProjectIndex === projectTitles.length - 1 ? 'hidden' : 'visible';
+}
+
+// ========== ATTACH TILE CLICK EVENTS ==========
+function attachShowcaseListeners() {
+    const showcaseTiles = document.querySelectorAll('.showcase-tile');
+
+    showcaseTiles.forEach((tile, i) => {
+        tile.addEventListener('click', (e) => {
+            e.preventDefault();
+            showProject(i);
+        });
+    });
 }
 
 // ========== THEME TOGGLE ==========
@@ -68,7 +78,7 @@ function loadPage(url) {
     xhttp.send();
 }
 
-// ========== DOM READY ==========
+// ========== ON PAGE LOAD ==========
 document.addEventListener("DOMContentLoaded", () => {
     // Inject navbar
     fetch('navbar.html')
@@ -88,22 +98,15 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-    // Apply dark mode
+    // Apply stored theme
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
     }
 
-    // Attach showcase tile click logic
     attachShowcaseListeners();
 
-    // Close button (one-time listener)
-    document.getElementById('close-details')?.addEventListener('click', () => {
-        document.getElementById('project-details').classList.remove('show');
-        document.getElementById('project-details').classList.add('hidden');
-    });
-
-    // Arrows (one-time listener)
+    // Attach arrow listeners once
     document.getElementById('prev-project')?.addEventListener('click', () => {
         if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
     });
