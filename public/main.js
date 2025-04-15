@@ -24,6 +24,7 @@ function showProject(index) {
             detailsPanel.classList.remove('hidden');
             detailsPanel.classList.add('show');
             updateArrowVisibility();
+            attachModalButtons(); // 🔁 ensure listeners on arrows + close
         });
 }
 
@@ -49,30 +50,33 @@ function attachShowcaseListeners() {
     });
 }
 
-// ========== CLOSE AND ARROW BUTTONS ==========
-function attachNavButtons() {
+// ========== ATTACH ARROWS AND CLOSE TO MODAL ==========
+function attachModalButtons() {
+    const panel = document.getElementById('project-details');
     const closeBtn = document.getElementById('close-details');
     const prevBtn = document.getElementById('prev-project');
     const nextBtn = document.getElementById('next-project');
 
-    if (closeBtn) {
+    if (closeBtn && !closeBtn.dataset.attached) {
         closeBtn.addEventListener('click', () => {
-            const panel = document.getElementById('project-details');
             panel.classList.remove('show');
             panel.classList.add('hidden');
         });
+        closeBtn.dataset.attached = "true";
     }
 
-    if (prevBtn) {
+    if (prevBtn && !prevBtn.dataset.attached) {
         prevBtn.addEventListener('click', () => {
             showProject(currentProjectIndex - 1);
         });
+        prevBtn.dataset.attached = "true";
     }
 
-    if (nextBtn) {
+    if (nextBtn && !nextBtn.dataset.attached) {
         nextBtn.addEventListener('click', () => {
             showProject(currentProjectIndex + 1);
         });
+        nextBtn.dataset.attached = "true";
     }
 }
 
@@ -89,7 +93,7 @@ function loadPage(url) {
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             document.getElementById("content").innerHTML = this.responseText;
-            attachShowcaseListeners();
+            attachShowcaseListeners(); // 🔁 reattach tile listeners
         }
     };
     xhttp.open("GET", url, true);
@@ -122,7 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add('dark-mode');
     }
 
-    // Attach event handlers
-    attachShowcaseListeners();
-    attachNavButtons();
+    attachShowcaseListeners(); // tiles
+    attachModalButtons();      // modal nav buttons
 });
