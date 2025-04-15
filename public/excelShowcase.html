@@ -146,13 +146,17 @@
                 e.preventDefault();
                 const title = tile.querySelector('.tile-overlay').textContent.trim();
                 contentContainer.innerHTML = projectData[title] || "<p>Details coming soon.</p>";
+                detailsPanel.classList.remove('hidden');
                 detailsPanel.classList.add('show');
+
 
             });
         });
 
         closeBtn.addEventListener('click', () => {
             detailsPanel.classList.remove('show');
+            detailsPanel.classList.add('hidden');
+
 
         });
     </script>
