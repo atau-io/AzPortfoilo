@@ -19,7 +19,6 @@ body {
     transform: rotate(180deg) scale(1.2);
 }
 
-
 main {
     padding: 2rem;
     max-width: 900px;
@@ -66,7 +65,7 @@ a:hover::after {
 .site-title-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center; /* <-- center horizontally */
+    justify-content: center;
     gap: 1rem;
     padding: 1rem 2rem;
     position: relative;
@@ -148,19 +147,130 @@ footer {
     font-size: 0.9rem;
 }
 
+/* ========== Showcase Grid ========== */
+.showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+}
+
+.showcase-tile {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+    padding: 1.5rem 1rem;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    max-height: 220px;
+}
+
+.showcase-tile:hover {
+    transform: scale(1.05);
+    background-color: #292929;
+}
+
+.tile-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    stroke: #ff7f11;
+}
+
+.tile-overlay {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* ========== Project Modal ========== */
+.project-details {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 850px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    color: #1a1c1f;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    display: none;
+    transition: opacity 0.3s ease;
+}
+
+.project-details.show {
+    display: block;
+    opacity: 1;
+}
+
+.project-details.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#project-content {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: #1a1c1f;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    font-size: 2rem;
+    background: none;
+    color: #ff7f11;
+    border: none;
+    cursor: pointer;
+}
+
+/* Arrows */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    background: none;
+    color: #ff7f11;
+    border: none;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+.left-arrow { left: 1rem; }
+.right-arrow { right: 1rem; }
+
+.nav-arrow:hover {
+    color: #ffa94d;
+}
+
 /* ========== Dark Mode ========== */
 body.dark-mode {
     background-color: #121212;
     color: #eeeeee;
 }
 
-    body.dark-mode main {
-        background-color: #202020;
-    }
-
-    body.dark-mode .showcase-tile {
-        background-color: #2a2a2a;
-    }
+body.dark-mode main {
+    background-color: #202020;
+}
 
 body.dark-mode .navbar a,
 body.dark-mode .dropbtn,
@@ -190,7 +300,21 @@ body.dark-mode footer {
     background-color: #1a1a1a;
 }
 
-/* ========== Responsive Styles ========== */
+body.dark-mode .showcase-tile {
+    background-color: #2a2a2a;
+}
+
+body.dark-mode .project-details {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #ffffff;
+}
+
+body.dark-mode #project-content {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+/* ========== Responsive ========== */
 @media (max-width: 768px) {
     .site-title-wrapper {
         flex-direction: column;
@@ -211,230 +335,4 @@ body.dark-mode footer {
     .logo-glow {
         max-height: 50px;
     }
-}
-.showcase-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem 0;
-}
-
-.showcase-tile {
-    background-color: #1e1e1e;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
-    padding: 1.5rem 1rem;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 150px;
-    max-height: 220px;
-}
-
-    .showcase-tile:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-        background-color: #292929;
-    }
-
-.tile-icon {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 1rem;
-    stroke: #ff7f11;
-    flex-shrink: 0;
-}
-
-.tile-overlay {
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-body.dark-mode .showcase-tile:hover {
-    background-color: #333333;
-}
-.project-details {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
-    z-index: 9999;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-y: auto;
-    transition: opacity 0.3s ease;
-}
-
-    .project-details.hidden {
-        display: none;
-    }
-
-.close-btn {
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
-    font-size: 2rem;
-    background: none;
-    color: #ff7f11;
-    border: none;
-    cursor: pointer;
-}
-
-#project-content {
-    max-width: 700px;
-    background-color: #1e1e1e;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 127, 17, 0.5);
-}
-
-body.dark-mode #project-content {
-    background-color: #2a2a2a;
-}
-.project-details {
-    opacity: 1;
-    pointer-events: all;
-}
-
-    .project-details.hidden {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-    }
-
-.project-details {
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 800px;
-    background-color: #1e1e1e;
-    color: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
-    z-index: 999;
-    display: none;
-}
-
-    .project-details .close-btn {
-        position: absolute;
-        top: 0.5rem;
-        right: 1rem;
-        font-size: 2rem;
-        background: none;
-        border: none;
-        color: #ff7f11;
-        cursor: pointer;
-    }
-
-    .project-details.show {
-        display: block;
-    }
-/* Default (light theme) popup */
-.project-details {
-    background-color: rgba(0, 0, 0, 0.7); /* softened for light mode */
-}
-
-#project-content {
-    background-color: #ffffff;
-    color: #1a1c1f;
-}
-
-/* Dark mode popup overrides */
-body.dark-mode .project-details {
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-body.dark-mode #project-content {
-    background-color: #1e1e1e;
-    color: #ffffff;
-}
-body.dark-mode .project-box {
-    background-color: #2a2a2a;
-    color: #fff;
-}
-
-.project-box {
-    background-color: #fff;
-    color: #111;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin-bottom: 1.5rem;
-}
-
-.image-placeholder {
-    background: linear-gradient(45deg, #ccc, #eee);
-    height: 150px;
-    border-radius: 8px;
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-style: italic;
-    color: #777;
-}
-.nav-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2.5rem;
-    background: none;
-    color: #ff7f11;
-    border: none;
-    cursor: pointer;
-    z-index: 10000;
-}
-
-.left-arrow {
-    left: 1rem;
-}
-
-.right-arrow {
-    right: 1rem;
-}
-
-.nav-arrow:hover {
-    color: #ffa94d;
-}
-/* Base project popout panel */
-#project-details {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-height: 90vh;
-    max-width: 90vw;
-    overflow-y: auto;
-    z-index: 9999;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    transition: background 0.3s ease;
-}
-
-/* Default: Dark mode background */
-body.dark-mode #project-details {
-    background: #1c1c1c;
-    border: 1px solid #333;
-}
-
-/* Light mode background */
-body:not(.dark-mode) #project-details {
-    background: #fdfdfd;
-    border: 1px solid #ddd;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
