@@ -312,3 +312,34 @@ body.dark-mode #project-content {
         pointer-events: none;
         transition: opacity 0.3s ease;
     }
+
+.project-details {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    background-color: #1e1e1e;
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    display: none;
+}
+
+    .project-details .close-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 2rem;
+        background: none;
+        border: none;
+        color: #ff7f11;
+        cursor: pointer;
+    }
+
+    .project-details.show {
+        display: block;
+    }
