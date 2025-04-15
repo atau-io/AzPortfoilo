@@ -25,6 +25,7 @@ function showProject(index) {
             detailsPanel.classList.add('show');
             updateArrowVisibility();
 
+            // Close button
             const closeBtn = document.getElementById('close-details');
             if (closeBtn) {
                 closeBtn.addEventListener('click', () => {
@@ -32,8 +33,25 @@ function showProject(index) {
                     detailsPanel.classList.add('hidden');
                 });
             }
+
+            // Arrow buttons — MUST be added after partial content is loaded
+            const prevBtn = document.getElementById('prev-project');
+            const nextBtn = document.getElementById('next-project');
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
+                });
+            }
         });
 }
+
 
 // ========== SHOW/HIDE NAV ARROWS ==========
 function updateArrowVisibility() {
@@ -106,19 +124,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     attachShowcaseListeners();
 
-    // Attach arrow listeners ONCE — don't nest them in showProject
-    const prevBtn = document.getElementById('prev-project');
-    const nextBtn = document.getElementById('next-project');
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
-        });
-    }
 });
