@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         //Dynamically load dragon script
                         if (url.includes('rpgPage.html')) {
                             const script = document.createElement('script');
-                            script.src = 'js/dragon.js';
+                            script.src = 'dragon.js';
                             script.defer = true;
                             document.body.appendChild(script);
                         }
