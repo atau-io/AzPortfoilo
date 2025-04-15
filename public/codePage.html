@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programming Showcase</title>
     <link rel="stylesheet" href="css/ATauFullStyle.css">
-    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.js"></script>
+    <!-- Prism.js Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 
 </head>
 <body>
@@ -15,7 +17,7 @@
 
     <main>
         <h2>Featured Code Snippet</h2>
-        <pre><code class="language-javascript">
+<pre><code class="language-javascript">
 // Quick random number generator
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -23,6 +25,7 @@ function getRandomInt(min, max) {
 
 console.log(getRandomInt(1, 100));
 </code></pre>
+
 
     </main>
 
