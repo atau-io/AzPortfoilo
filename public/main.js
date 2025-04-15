@@ -7,24 +7,15 @@ const urlMap = {
     "Weekly Review": "partials/endofweekreview.html"
 };
 
-// ========== LOAD PARTIAL ==========
 function loadPartial(url, container) {
     fetch(url)
         .then(response => response.text())
         .then(html => {
             container.innerHTML = html;
             updateArrowVisibility();
-
-            // Close button logic after new HTML loads
-            const closeBtn = document.getElementById('close-details');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', () => {
-                    document.getElementById('project-details').classList.remove('show');
-                    document.getElementById('project-details').classList.add('hidden');
-                });
-            }
         });
 }
+
 
 function showProject(index) {
     const contentContainer = document.getElementById('project-content');
@@ -38,14 +29,27 @@ function showProject(index) {
             .then(res => res.text())
             .then(html => {
                 contentContainer.innerHTML = html;
-
-                // Don't move this into loadPartial() anymore
-                updateArrowVisibility();
                 detailsPanel.classList.remove('hidden');
                 detailsPanel.classList.add('show');
+                updateArrowVisibility();
+
+                // Add close and arrow listeners here because content just got loaded
+                document.getElementById('close-details')?.addEventListener('click', () => {
+                    detailsPanel.classList.remove('show');
+                    detailsPanel.classList.add('hidden');
+                });
+
+                document.getElementById('prev-project')?.addEventListener('click', () => {
+                    if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
+                });
+
+                document.getElementById('next-project')?.addEventListener('click', () => {
+                    if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
+                });
             });
     }
 }
+
 
 
 // ========== SHOW/HIDE NAV ARROWS ==========
