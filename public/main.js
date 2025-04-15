@@ -7,13 +7,14 @@ const urlMap = {
     "Weekly Review": "partials/endofweekreview.html"
 };
 
-// ========== LOAD PARTIAL ==========
+// ========== DISPLAY A PROJECT ==========
 function showProject(index) {
     if (index < 0 || index >= projectTitles.length) return;
 
+    const title = projectTitles[index];
     const contentContainer = document.getElementById('project-content');
     const detailsPanel = document.getElementById('project-details');
-    const title = projectTitles[index];
+
     currentProjectIndex = index;
 
     fetch(urlMap[title])
@@ -26,30 +27,60 @@ function showProject(index) {
         });
 }
 
-// ========== SHOW/HIDE NAV ARROWS ==========
+// ========== ARROW VISIBILITY ==========
 function updateArrowVisibility() {
     const prev = document.getElementById('prev-project');
     const next = document.getElementById('next-project');
 
-    if (!prev || !next) return;
-
-    prev.style.visibility = currentProjectIndex === 0 ? 'hidden' : 'visible';
-    next.style.visibility = currentProjectIndex === projectTitles.length - 1 ? 'hidden' : 'visible';
+    if (prev && next) {
+        prev.style.visibility = currentProjectIndex === 0 ? 'hidden' : 'visible';
+        next.style.visibility = currentProjectIndex === projectTitles.length - 1 ? 'hidden' : 'visible';
+    }
 }
 
-// ========== ATTACH TILE CLICK EVENTS ==========
+// ========== TILE CLICK EVENTS ==========
 function attachShowcaseListeners() {
-    const showcaseTiles = document.querySelectorAll('.showcase-tile');
-
-    showcaseTiles.forEach((tile, i) => {
+    const tiles = document.querySelectorAll('.showcase-tile');
+    tiles.forEach((tile, index) => {
         tile.addEventListener('click', (e) => {
             e.preventDefault();
-            showProject(i);
+            showProject(index);
         });
     });
 }
 
-// ========== THEME TOGGLE ==========
+// ========== CLOSE + ARROW LISTENERS ==========
+function attachOverlayControls() {
+    const closeBtn = document.getElementById('close-details');
+    const prevBtn = document.getElementById('prev-project');
+    const nextBtn = document.getElementById('next-project');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            const panel = document.getElementById('project-details');
+            panel.classList.remove('show');
+            panel.classList.add('hidden');
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentProjectIndex > 0) {
+                showProject(currentProjectIndex - 1);
+            }
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentProjectIndex < projectTitles.length - 1) {
+                showProject(currentProjectIndex + 1);
+            }
+        });
+    }
+}
+
+// ========== THEME ==========
 function toggleTheme() {
     document.body.classList.toggle('dark-mode');
     const isDark = document.body.classList.contains('dark-mode');
@@ -69,9 +100,9 @@ function loadPage(url) {
     xhttp.send();
 }
 
-// ========== ON PAGE LOAD ==========
+// ========== INIT ==========
 document.addEventListener("DOMContentLoaded", () => {
-    // Inject navbar
+    // Load navbar
     fetch('navbar.html')
         .then(response => response.text())
         .then(data => {
@@ -89,36 +120,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-    // Apply stored theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    // Apply dark mode if saved
+    if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-mode');
     }
 
     attachShowcaseListeners();
-
-    // Close Button (attach once)
-    const closeBtn = document.getElementById('close-details');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            document.getElementById('project-details').classList.remove('show');
-            document.getElementById('project-details').classList.add('hidden');
-        });
-    }
-
-    // Arrows (attach once)
-    const prevBtn = document.getElementById('prev-project');
-    const nextBtn = document.getElementById('next-project');
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
-        });
-    }
+    attachOverlayControls();
 });
