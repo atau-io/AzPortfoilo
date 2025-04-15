@@ -1,0 +1,28 @@
+
+/* ========== Layout Styles ========== */
+main {
+    padding: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode main {
+    background: rgba(40, 40, 40, 0.85);
+}
+
+.container {
+    padding: 1rem;
+}
+
+footer {
+    margin-top: 4rem;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: #888;
+}
+    

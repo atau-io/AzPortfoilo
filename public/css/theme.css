@@ -1,5 +1,5 @@
 
-/* ========== Dark Mode ========== */
+/* ========== Theme Styles ========== */
 body.dark-mode {
     background-color: #121212;
     color: #eeeeee;
@@ -12,24 +12,4 @@ body.dark-mode main {
 body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
     color: #ffffff;
 }
-
-body.dark-mode a {
-    color: #ff7f11;
-}
-
-body.dark-mode a::after {
-    background-color: #ff7f11;
-}
-
-/* Light Mode Popup */
-body:not(.dark-mode) #project-details {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #ddd;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-/* Dark Mode Popup */
-body.dark-mode #project-details {
-    background-color: rgba(0, 0, 0, 0.9);
-    border: 1px solid #333;
-}
+    
