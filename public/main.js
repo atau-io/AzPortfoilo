@@ -7,21 +7,12 @@ const urlMap = {
     "Weekly Review": "partials/endofweekreview.html"
 };
 
-function loadPartial(url, container) {
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            container.innerHTML = html;
-            updateArrowVisibility();
-        });
-}
-
-
+// ========== LOAD PROJECT CONTENT ==========
 function showProject(index) {
     const contentContainer = document.getElementById('project-content');
     const detailsPanel = document.getElementById('project-details');
-
     const title = projectTitles[index];
+
     currentProjectIndex = index;
 
     if (urlMap[title]) {
@@ -32,47 +23,29 @@ function showProject(index) {
                 detailsPanel.classList.remove('hidden');
                 detailsPanel.classList.add('show');
                 updateArrowVisibility();
-
-                // Add close and arrow listeners here because content just got loaded
-                document.getElementById('close-details')?.addEventListener('click', () => {
-                    detailsPanel.classList.remove('show');
-                    detailsPanel.classList.add('hidden');
-                });
-
-                document.getElementById('prev-project')?.addEventListener('click', () => {
-                    if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
-                });
-
-                document.getElementById('next-project')?.addEventListener('click', () => {
-                    if (currentProjectIndex < projectTitles.length - 1) showProject(currentProjectIndex + 1);
-                });
             });
     }
-}
-
-
-
-// ========== SHOW/HIDE NAV ARROWS ==========
-function updateArrowVisibility() {
-    const prev = document.getElementById('prev-project');
-    const next = document.getElementById('next-project');
-
-    if (!prev || !next) return;
-
-    prev.style.visibility = currentProjectIndex === 0 ? 'hidden' : 'visible';
-    next.style.visibility = currentProjectIndex === projectTitles.length - 1 ? 'hidden' : 'visible';
 }
 
 // ========== ATTACH TILE CLICK EVENTS ==========
 function attachShowcaseListeners() {
     const showcaseTiles = document.querySelectorAll('.showcase-tile');
-
     showcaseTiles.forEach((tile, i) => {
         tile.addEventListener('click', (e) => {
             e.preventDefault();
             showProject(i);
         });
     });
+}
+
+// ========== SHOW/HIDE NAV ARROWS ==========
+function updateArrowVisibility() {
+    const prev = document.getElementById('prev-project');
+    const next = document.getElementById('next-project');
+    if (!prev || !next) return;
+
+    prev.style.visibility = currentProjectIndex === 0 ? 'hidden' : 'visible';
+    next.style.visibility = currentProjectIndex === projectTitles.length - 1 ? 'hidden' : 'visible';
 }
 
 // ========== THEME TOGGLE ==========
@@ -95,7 +68,7 @@ function loadPage(url) {
     xhttp.send();
 }
 
-// ========== ON PAGE LOAD ==========
+// ========== DOM READY ==========
 document.addEventListener("DOMContentLoaded", () => {
     // Inject navbar
     fetch('navbar.html')
@@ -103,11 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             document.getElementById('navbar-placeholder').innerHTML = data;
 
-            // Theme toggle
             const toggleBtn = document.getElementById('toggleThemeBtn');
             if (toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
 
-            // Load-link handling
             document.querySelectorAll('.load-link').forEach(link => {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -117,16 +88,22 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-    // Apply stored theme
+    // Apply dark mode
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
     }
 
-    // Showcase
+    // Attach showcase tile click logic
     attachShowcaseListeners();
 
-    // Nav arrows
+    // Close button (one-time listener)
+    document.getElementById('close-details')?.addEventListener('click', () => {
+        document.getElementById('project-details').classList.remove('show');
+        document.getElementById('project-details').classList.add('hidden');
+    });
+
+    // Arrows (one-time listener)
     document.getElementById('prev-project')?.addEventListener('click', () => {
         if (currentProjectIndex > 0) showProject(currentProjectIndex - 1);
     });
