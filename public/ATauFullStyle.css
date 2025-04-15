@@ -387,3 +387,26 @@ body.dark-mode .project-box {
     font-style: italic;
     color: #777;
 }
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.5rem;
+    background: none;
+    color: #ff7f11;
+    border: none;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+.left-arrow {
+    left: 1rem;
+}
+
+.right-arrow {
+    right: 1rem;
+}
+
+.nav-arrow:hover {
+    color: #ffa94d;
+}
