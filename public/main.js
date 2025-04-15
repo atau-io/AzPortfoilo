@@ -129,3 +129,20 @@ document.addEventListener("DOMContentLoaded", () => {
     attachShowcaseListeners(); // tiles
     attachModalButtons();      // modal nav buttons
 });
+document.querySelectorAll('.load-link').forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const url = this.getAttribute('data-url');
+        if (url) {
+            loadPage(url);
+
+            // Load dragon.js manually if needed
+            if (url.includes('rpgPage.html')) {
+                const script = document.createElement('script');
+                script.src = 'js/dragon.js';
+                script.defer = true;
+                document.body.appendChild(script);
+            }
+        }
+    });
+});
