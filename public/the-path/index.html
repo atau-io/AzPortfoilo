@@ -889,7 +889,7 @@
       if(q.meditate) meditateDays++;
       if(q.code) codeDays++;
       if(q.meals) mealDays++;
-      const suppCount = ['l_fishoil','l_coq10','l_vitd','l_zinc','l_selenium'].filter(k=>q[k]).length;
+      const suppCount = ['l_fishoil','l_vitd','l_zinc','l_selenium'].filter(k=>q[k]).length;
       if(suppCount>=4) supplementWeek++;
       else supplementWeek=0;
     });
