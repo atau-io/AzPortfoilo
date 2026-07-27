@@ -587,7 +587,7 @@
 
     // Canva supplies window.storage when hosted inside Canva.
   // Azure does not, so use the browser's localStorage instead.
-  if (!window.storage) {
+
     window.storage = {
       async get(key) {
         const value = localStorage.getItem(key);
@@ -609,7 +609,7 @@
         return { keys };
       }
     };
-  }
+  
   const ATTRS = [
     {key:'strength', name:'Strength', cls:'fill-strength'},
     {key:'discipline', name:'Discipline', cls:'fill-discipline'},
