@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Path</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
+ <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260726-23-5888c34"}');</script><script src="/_sdk/e358eac22bd01364.telemetry_sdk.js" integrity="sha512-KPxp3rw4K8Nu9ceWJc3gyM7srgaZxiFWOVbyu260EYzzAqdz10mfo5xyXrCx+wEKtGo77JbtmwXvFLbwrGzwvw=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Path</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&amp;family=Spectral:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
   :root{
     --ink:#12151a;
     --panel:#1b1f26;
@@ -20,6 +20,10 @@
     --steel-dim:#3f5566;
     --gold:#c9a24b;
     --green:#6f9c76;
+    --purple:#7a5c9c;
+    --purple-dim:#4e3a66;
+    --teal:#4a8a8a;
+    --teal-dim:#2e5a5a;
     --shadow: 0 8px 24px rgba(0,0,0,0.45);
   }
   *{box-sizing:border-box;}
@@ -30,10 +34,50 @@
       var(--ink);
     color:var(--parchment);
     font-family:'Spectral', serif;
-    min-height:100vh;
+    min-height:calc(100 * min(var(--vh, 1vh), 1vh));
     padding:28px 16px 60px;
   }
   .wrap{max-width:640px;margin:0 auto;}
+
+  /* ---- Nav Tabs ---- */
+  .tab-nav{
+    display:flex;
+    gap:4px;
+    margin-bottom:22px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:4px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .tab-nav::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:1;
+    min-width:70px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    background:transparent;
+    border:none;
+    color:var(--muted);
+    padding:8px 6px;
+    border-radius:7px;
+    cursor:pointer;
+    transition:background .15s, color .15s;
+    white-space:nowrap;
+  }
+  .tab-btn.active{
+    background:var(--panel-2);
+    color:var(--gold);
+    border:1px solid var(--border);
+  }
+  .tab-btn:hover:not(.active){color:var(--parchment); background:transparent;}
+
+  /* ---- Sections ---- */
+  .section{display:none;}
+  .section.active{display:block;}
 
   /* ---- Header / Sigil ---- */
   .header{
@@ -46,6 +90,7 @@
     position:relative;
     width:74px;height:74px;flex:0 0 74px;
     border-radius:50%;
+    cursor:pointer;
   }
   .sigil-ring{
     position:absolute;inset:0;
@@ -78,9 +123,17 @@
     font-family:'Cinzel',serif;
     font-weight:700;
     font-size:26px;
-    margin:0 0 8px;
+    margin:0 0 4px;
     letter-spacing:.02em;
     color:var(--parchment);
+  }
+  .equipped-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    color:var(--steel);
+    letter-spacing:.08em;
+    margin-bottom:6px;
+    font-style:italic;
   }
   .xp-row{
     display:flex; align-items:center; gap:10px;
@@ -154,6 +207,8 @@
   .fill-discipline{background:linear-gradient(90deg,var(--steel-dim),var(--steel));}
   .fill-vigor{background:linear-gradient(90deg,#3f6b5a,var(--green));}
   .fill-vitality{background:linear-gradient(90deg,#8a6a2a,var(--gold));}
+  .fill-legacy{background:linear-gradient(90deg,var(--purple-dim),var(--purple));}
+  .fill-mind{background:linear-gradient(90deg,var(--teal-dim),var(--teal));}
 
   /* ---- Quest list ---- */
   .quest-date{
@@ -211,6 +266,17 @@
     font-style:italic;
   }
 
+  .category-divider{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    padding:10px 0 4px;
+    border-bottom:1px solid var(--border);
+    margin-bottom:4px;
+  }
+
   /* ---- Weight ledger ---- */
   .ledger-top{
     display:flex; justify-content:space-between;
@@ -233,7 +299,7 @@
   }
   .ledger-nums b{color:var(--gold); font-family:'JetBrains Mono',monospace;}
   .weight-form{display:flex; gap:10px; flex-wrap:wrap;}
-  input[type="number"]{
+  input[type="number"], input[type="text"]{
     flex:1; min-width:120px;
     background:var(--panel-2);
     border:1px solid var(--border);
@@ -244,7 +310,7 @@
     border-radius:6px;
     outline:none;
   }
-  input[type="number"]:focus{border-color:var(--steel);}
+  input[type="number"]:focus, input[type="text"]:focus{border-color:var(--steel);}
   button{
     font-family:'Cinzel',serif;
     font-weight:700;
@@ -293,6 +359,98 @@
   }
   .streak-label{font-size:13px; color:var(--muted); line-height:1.5;}
 
+  /* ---- Achievements ---- */
+  .achievement-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .achievement{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px;
+    transition:border-color .2s;
+  }
+  .achievement.unlocked{
+    border-color:var(--gold);
+    background:rgba(201,162,75,0.07);
+  }
+  .ach-icon{font-size:22px; margin-bottom:6px; opacity:.4;}
+  .achievement.unlocked .ach-icon{opacity:1;}
+  .ach-name{
+    font-family:'Cinzel',serif;
+    font-size:11px;
+    letter-spacing:.06em;
+    color:var(--muted);
+    margin-bottom:3px;
+  }
+  .achievement.unlocked .ach-name{color:var(--gold);}
+  .ach-desc{font-size:11px; color:#5c6472; line-height:1.4;}
+  .achievement.unlocked .ach-desc{color:var(--muted);}
+  .ach-progress{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    color:var(--steel);
+    margin-top:5px;
+  }
+
+  /* ---- Titles ---- */
+  .titles-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .title-chip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.06em;
+    padding:6px 12px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    color:var(--muted);
+    cursor:pointer;
+    transition:all .15s;
+    user-select:none;
+  }
+  .title-chip.equipped{
+    border-color:var(--steel);
+    color:var(--parchment);
+    background:rgba(91,122,148,0.15);
+  }
+  .title-chip:hover:not(.equipped){border-color:var(--muted); color:var(--parchment);}
+  .titles-note{font-size:12px; color:var(--muted); font-style:italic; margin-top:14px;}
+
+  /* ---- Legacy section ---- */
+  .legacy-note{
+    font-size:13px;
+    color:var(--muted);
+    font-style:italic;
+    margin-bottom:16px;
+    line-height:1.6;
+    border-left:2px solid var(--purple-dim);
+    padding-left:12px;
+  }
+
+  /* ---- Goals panel ---- */
+  .goal-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .goal-item:last-child{border-bottom:none;}
+  .goal-name{font-size:14px;}
+  .goal-val{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--gold);
+  }
+  .goal-form{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
+  .goal-form input[type="text"]{flex:2;}
+  .goal-form input[type="number"]{flex:1; min-width:80px;}
+
   .footer-note{
     text-align:center;
     font-size:11.5px;
@@ -304,6 +462,7 @@
 
   @media (max-width:420px){
     .stats-grid{grid-template-columns:1fr;}
+    .achievement-grid{grid-template-columns:1fr;}
     h1{font-size:22px;}
   }
 
@@ -311,80 +470,121 @@
     *{transition:none !important;}
   }
 </style>
-</head>
-<body>
-<div class="wrap">
-
-  <div class="header">
-    <div class="sigil">
-      <div class="sigil-ring" id="sigilRing"></div>
-      <div class="sigil-core" id="sigilLevel">1</div>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/935a53bc2e11fb8d.data_sdk.js" type="text/javascript" integrity="sha512-qr2oyPnEys1WebcOABaRh6hG77r5PWpqeWW6JTKbRJqly/INsfBi31CVNlTmHqjgeLpkVmmHZJUdxSx/32tOFQ=="></script>
+  <script src="/_sdk/6030e540d4419216.resizing_sdk.js" type="text/javascript" integrity="sha512-b5KWzyoXsbWP4smq4sftIi6Kts4YVBpBsz0BwCViwbBJkK64a3/Z6ZMdWA+qnplNcXw4mhZeqvQi3mOosiRJdA=="></script>
+ </head>
+ <body data-template-id="__page-root">
+  <div class="wrap">
+   <div class="header">
+    <div class="sigil" id="sigilBtn" title="Tap to change equipped title">
+     <div class="sigil-ring" id="sigilRing"></div>
+     <div class="sigil-core" id="sigilLevel">
+      1
+     </div>
     </div>
     <div class="title-block">
-      <div class="eyebrow" id="dateLabel">—</div>
-      <h1 id="titleLine">The Path — Wanderer</h1>
-      <div class="xp-row">
-        <span id="xpLabel">0 / 100 XP</span>
-        <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+     <div class="eyebrow" id="dateLabel">
+      —
+     </div>
+     <h1 id="titleLine">The Path</h1>
+     <div class="equipped-title" id="equippedTitleDisplay"></div>
+     <div class="xp-row"><span id="xpLabel">0 / 150 XP</span>
+      <div class="xp-track">
+       <div class="xp-fill" id="xpFill" style="width:0%"></div>
       </div>
+     </div>
     </div>
-  </div>
-
-  <div class="panel">
-    <h2>Attributes</h2>
-    <div class="stats-grid" id="statsGrid"></div>
-  </div>
-
-  <div class="panel">
-    <h2>Today's Trials</h2>
-    <div class="quest-date" id="questDate">—</div>
-    <div id="questList"></div>
-    <div class="fast-note" id="fastNote"></div>
-  </div>
-
-  <div class="panel">
-    <h2>Weight Ledger</h2>
-    <div id="setupBlock">
+   </div><!-- Tab Nav -->
+   <nav class="tab-nav" aria-label="Sections"><button class="tab-btn active" data-tab="trials" data-template-id="tab-trials">Trials</button> <button class="tab-btn" data-tab="character" data-template-id="tab-character">Character</button> <button class="tab-btn" data-tab="legacy" data-template-id="tab-legacy">Legacy</button> <button class="tab-btn" data-tab="ledger" data-template-id="tab-ledger">Ledger</button> <button class="tab-btn" data-tab="achievements" data-template-id="tab-achievements">Feats</button> <button class="tab-btn" data-tab="titles" data-template-id="tab-titles">Titles</button>
+   </nav><!-- SECTION: Trials -->
+   <div class="section active" id="sec-trials">
+    <div class="panel">
+     <h2 data-template-id="trials-heading" class="canva-text">Today's Trials</h2>
+     <div class="quest-date" id="questDate">
+      —
+     </div>
+     <div id="questList"></div>
+     <div class="fast-note" id="fastNote"></div>
+    </div>
+    <div class="panel">
+     <h2 data-template-id="streak-heading" class="canva-text">Unbroken Streak</h2>
+     <div class="streak-row">
+      <div class="streak-flame" id="streakNum">
+       0
+      </div>
+      <div class="streak-label" data-template-id="streak-label">
+       days of trials logged in a row.<br>
+       Miss a day and the count resets — the Path forgives, but it doesn't forget.
+      </div>
+     </div>
+    </div>
+   </div><!-- SECTION: Character -->
+   <div class="section" id="sec-character">
+    <div class="panel">
+     <h2 data-template-id="attrs-heading" class="canva-text">Attributes</h2>
+     <div class="stats-grid" id="statsGrid"></div>
+    </div>
+   </div><!-- SECTION: Legacy -->
+   <div class="section" id="sec-legacy">
+    <div class="panel">
+     <h2 data-template-id="legacy-heading" class="canva-text">Legacy Preparation</h2>
+     <p class="legacy-note" data-template-id="legacy-note">Sperm production takes roughly 2–3 months. These habits are an investment in a future outcome. Each day is a deposit into your legacy — results compound in silence.</p>
+     <div id="legacyQuestList"></div>
+    </div>
+   </div><!-- SECTION: Ledger -->
+   <div class="section" id="sec-ledger">
+    <div class="panel">
+     <h2 data-template-id="ledger-heading" class="canva-text">Weight Ledger</h2>
+     <div id="setupBlock">
       <div class="setup-row">
-        <div class="setup-field">
-          <label>Starting Weight</label>
-          <input type="number" id="startWeight" placeholder="e.g. 210">
-        </div>
-        <div class="setup-field">
-          <label>Goal Loss (lbs)</label>
-          <input type="number" id="goalLoss" placeholder="e.g. 30" value="30">
-        </div>
+       <div class="setup-field"><label data-template-id="label-start-weight" class="canva-text">Starting Weight</label> <input type="number" id="startWeight" placeholder="e.g. 210">
+       </div>
+       <div class="setup-field"><label data-template-id="label-goal-loss" class="canva-text">Goal Loss (lbs)</label> <input type="number" id="goalLoss" placeholder="e.g. 30" value="30">
+       </div>
+      </div><button id="saveProfile" data-template-id="btn-begin-ledger" class="canva-button">Begin the Ledger</button>
+     </div>
+     <div id="ledgerBlock" style="display:none;">
+      <div class="ledger-top">
+       <span id="ledgerStart">Start —</span><span id="ledgerGoal">Goal —</span>
       </div>
-      <button id="saveProfile">Begin the Ledger</button>
+      <div class="ledger-track">
+       <div class="ledger-fill" id="ledgerFill" style="width:0%"></div>
+      </div>
+      <div class="ledger-nums"><span data-template-id="ledger-current-label" class="canva-text">Current: <b id="ledgerCurrent">—</b></span> <span data-template-id="ledger-lost-label" class="canva-text">Lost so far: <b id="ledgerLost">—</b></span>
+      </div>
+      <div class="weight-form"><input type="number" id="weightInput" placeholder="Log today's weight (lbs)" step="0.1"> <button id="logWeight" data-template-id="btn-log-weight" class="canva-button">Log Weight</button> <button class="ghost" id="editProfile" data-template-id="btn-edit-goal">Edit Goal</button>
+      </div>
+     </div>
     </div>
-    <div id="ledgerBlock" style="display:none;">
-      <div class="ledger-top"><span id="ledgerStart">Start —</span><span id="ledgerGoal">Goal —</span></div>
-      <div class="ledger-track"><div class="ledger-fill" id="ledgerFill" style="width:0%"></div></div>
-      <div class="ledger-nums">
-        <span>Current: <b id="ledgerCurrent">—</b></span>
-        <span>Lost so far: <b id="ledgerLost">—</b></span>
-      </div>
-      <div class="weight-form">
-        <input type="number" id="weightInput" placeholder="Log today's weight (lbs)" step="0.1">
-        <button id="logWeight">Log Weight</button>
-        <button class="ghost" id="editProfile">Edit Goal</button>
-      </div>
+    <div class="panel">
+     <h2 data-template-id="goals-heading" class="canva-text">Personal Goals</h2>
+     <div id="goalsList"></div>
+     <div class="goal-form"><input type="text" id="goalName" placeholder="Goal name"> <input type="number" id="goalTarget" placeholder="Target"> <button id="addGoalBtn" data-template-id="btn-add-goal" class="canva-button">Add</button>
+     </div>
     </div>
+   </div><!-- SECTION: Achievements -->
+   <div class="section" id="sec-achievements">
+    <div class="panel">
+     <h2 data-template-id="feats-heading" class="canva-text">Feats of Legend</h2>
+     <div class="achievement-grid" id="achievementGrid"></div>
+    </div>
+   </div><!-- SECTION: Titles -->
+   <div class="section" id="sec-titles">
+    <div class="panel">
+     <h2 data-template-id="titles-heading" class="canva-text">Titles</h2>
+     <div class="titles-grid" id="titlesGrid"></div>
+     <p class="titles-note" data-template-id="titles-note">Tap a title to equip it. Your chosen title appears beneath your rank on the character sheet.</p>
+    </div>
+   </div>
+   <div class="footer-note" id="statusNote" data-template-id="status-note">
+    loading your record...
+   </div>
   </div>
-
-  <div class="panel">
-    <h2>Unbroken Streak</h2>
-    <div class="streak-row">
-      <div class="streak-flame" id="streakNum">0</div>
-      <div class="streak-label">days of trials logged in a row.<br>Miss a day and the count resets — the Path forgives, but it doesn't forget.</div>
-    </div>
-  </div>
-
-  <div class="footer-note" id="statusNote">loading your record...</div>
-</div>
-
-<script>
+  <script>
 (function(){
+
     // Canva supplies window.storage when hosted inside Canva.
   // Azure does not, so use the browser's localStorage instead.
   if (!window.storage) {
@@ -410,35 +610,82 @@
       }
     };
   }
-  
   const ATTRS = [
     {key:'strength', name:'Strength', cls:'fill-strength'},
     {key:'discipline', name:'Discipline', cls:'fill-discipline'},
     {key:'vigor', name:'Vigor', cls:'fill-vigor'},
     {key:'vitality', name:'Vitality', cls:'fill-vitality'},
+    {key:'legacy', name:'Legacy', cls:'fill-legacy'},
+    {key:'mind', name:'Mind', cls:'fill-mind'},
   ];
 
   const BASE_QUESTS = [
-    {id:'train', text:'Trained today', tag:'STR', attr:'strength', xp:15},
-    {id:'meals', text:'Ate on the Path (stuck to the plan)', tag:'DISC', attr:'discipline', xp:15},
-    {id:'sleep', text:'Slept 7–8 hours', tag:'VIG', attr:'vigor', xp:10},
-    {id:'water', text:'Hit your water mark', tag:'VIG', attr:'vigor', xp:5},
-    {id:'noheat', text:'No hot tub / sauna / long hot bath', tag:'VIT', attr:'vitality', xp:5},
+    {id:'train', text:'Trained today', tag:'STR', attr:'strength', xp:15, cat:'Physical'},
+    {id:'meals', text:'Ate on the Path (stuck to the plan)', tag:'DISC', attr:'discipline', xp:15, cat:'Physical'},
+    {id:'sleep', text:'Slept 7–8 hours', tag:'VIG', attr:'vigor', xp:10, cat:'Physical'},
+    {id:'water', text:'Hit your water mark', tag:'VIG', attr:'vigor', xp:5, cat:'Physical'},
+    {id:'noheat', text:'No hot tub / sauna / long hot bath', tag:'VIT', attr:'vitality', xp:5, cat:'Physical'},
+    {id:'read', text:'Read for 20+ minutes', tag:'MIND', attr:'mind', xp:10, cat:'Mind'},
+    {id:'meditate', text:'Meditated or practiced stillness', tag:'MIND', attr:'mind', xp:10, cat:'Mind'},
+    {id:'code', text:'Coding / building session', tag:'BUILD', attr:'discipline', xp:15, cat:'Mind'},
+    {id:'noalcohol', text:'Alcohol-free day', tag:'DISC', attr:'discipline', xp:10, cat:'Mind'},
   ];
-  const FAST_QUEST = {id:'fastwindow', text:'Held the fasting window (12–8pm)', tag:'DISC', attr:'discipline', xp:20};
+  const FAST_QUEST = {id:'fastwindow', text:'Held the fasting window (12–8pm)', tag:'DISC', attr:'discipline', xp:20, cat:'Physical'};
 
-  const LEVEL_TITLES = ['Wanderer','Initiate','Adept','Warden','Sworn','Master of the Path'];
+  const LEGACY_QUESTS = [
+    {id:'l_fishoil', text:'Fish oil taken', tag:'LEG', attr:'legacy', xp:5},
+    {id:'l_coq10', text:'CoQ10 taken', tag:'LEG', attr:'legacy', xp:5},
+    {id:'l_multivit', text:'Multivitamin / prenatal taken', tag:'LEG', attr:'legacy', xp:5},
+    {id:'l_vitd', text:'Vitamin D taken', tag:'LEG', attr:'legacy', xp:5},
+    {id:'l_zinc', text:'Zinc taken', tag:'LEG', attr:'legacy', xp:5},
+    {id:'l_selenium', text:'Selenium taken', tag:'LEG', attr:'legacy', xp:5},
+    {id:'l_exercise', text:'Exercise completed (legacy boost)', tag:'LEG', attr:'legacy', xp:10},
+    {id:'l_sleep', text:'Quality sleep (7–8 hrs)', tag:'LEG', attr:'legacy', xp:8},
+    {id:'l_nonicotine', text:'Nicotine-free day', tag:'LEG', attr:'legacy', xp:10},
+    {id:'l_noalcohol', text:'Alcohol-free day', tag:'LEG', attr:'legacy', xp:8},
+    {id:'l_hydration', text:'Full hydration hit', tag:'LEG', attr:'legacy', xp:5},
+    {id:'l_noheat', text:'Managed heat exposure', tag:'LEG', attr:'legacy', xp:5},
+  ];
 
-  function todayKey(d){
-    return d.toISOString().slice(0,10);
-  }
-  function isFastDay(d){
-    const day = d.getDay(); // 0 Sun, 3 Wed
-    return day === 0 || day === 3;
-  }
-  function fmtDate(d){
-    return d.toLocaleDateString(undefined,{weekday:'long', month:'short', day:'numeric'});
-  }
+  const LEVEL_TITLES = [
+    {min:1,  title:'Lost Wanderer'},
+    {min:5,  title:'Wayfarer'},
+    {min:10, title:'Trailblazer'},
+    {min:15, title:'Pathfinder'},
+    {min:20, title:'Steward'},
+    {min:25, title:'Guardian'},
+    {min:30, title:'Champion'},
+    {min:35, title:'Warden'},
+    {min:40, title:'Master of the Path'},
+    {min:45, title:'Legend'},
+    {min:50, title:'Living Legend'},
+  ];
+
+  const EQUIP_TITLES = [
+    'The Consistent','The Builder','The Patient','The Explorer',
+    'The Disciplined','The Resilient','The Scholar','The Steward',
+    'The Strong','The Creator','The Unbroken','The Reliable',
+    'The Calm','The Prepared'
+  ];
+
+  const ACHIEVEMENTS = [
+    {id:'iron_will',    icon:'⚔️', name:'Iron Will',      desc:'30 days no missed workouts',      req:(s)=> s.trainStreak >= 30},
+    {id:'dawn_walker',  icon:'🌅', name:'Dawn Walker',    desc:'Wake before 6 AM ten times',       req:(s)=> s.earlyDays >= 10},
+    {id:'scholar',      icon:'📖', name:'Scholar',        desc:'Read 1,000+ pages (100 read days)', req:(s)=> s.readDays >= 100},
+    {id:'mountain',     icon:'⛰️', name:'Mountain Moved', desc:'Lose 30 lbs',                      req:(s)=> s.lostLbs >= 30},
+    {id:'builder',      icon:'🔨', name:'Builder',        desc:'100 coding sessions',              req:(s)=> s.codeDays >= 100},
+    {id:'steward',      icon:'🍳', name:'Steward',        desc:'Cook 100 meals (meals on plan)',   req:(s)=> s.mealDays >= 100},
+    {id:'keeper',       icon:'💊', name:'Keeper',         desc:'Perfect week of supplements',      req:(s)=> s.supplementWeek >= 7},
+    {id:'quiet_mind',   icon:'🧘', name:'Quiet Mind',     desc:'Meditate 50 days',                 req:(s)=> s.meditateDays >= 50},
+    {id:'long_road',    icon:'🛤️', name:'Long Road',      desc:'365-day streak',                   req:(s)=> s.streak >= 365},
+    {id:'phoenix',      icon:'🔥', name:'Phoenix',        desc:'Return after missing 14+ days',    req:(s)=> s.phoenix},
+    {id:'against_odds', icon:'💪', name:'Against the Odds',desc:'Finish workout you almost skipped',req:(s)=> s.trainDays >= 10},
+    {id:'no_excuses',   icon:'🏆', name:'No Excuses',     desc:'Complete every quest in a week',   req:(s)=> s.perfectWeek},
+  ];
+
+  function todayKey(d){ return d.toISOString().slice(0,10); }
+  function isFastDay(d){ const day = d.getDay(); return day === 0 || day === 3; }
+  function fmtDate(d){ return d.toLocaleDateString(undefined,{weekday:'long', month:'short', day:'numeric'}); }
 
   const now = new Date();
   const dk = todayKey(now);
@@ -450,31 +697,44 @@
     ? "Fasting day — eating window 12pm–8pm. Extra XP for holding it."
     : "";
 
-  let profile = null;   // {startWeight, goalLoss}
+  let profile = null;
   let todayLog = {quests:{}, weight:null};
   let allLogKeys = [];
+  let equippedTitle = '';
+  let customGoals = [];
+
+  // ---- Tab Nav ----
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('sec-'+btn.dataset.tab).classList.add('active');
+    });
+  });
 
   async function loadAll(){
-    try{
-      const p = await window.storage.get('profile', false);
-      profile = p ? JSON.parse(p.value) : null;
-    }catch(e){ profile = null; }
-
-    try{
-      const t = await window.storage.get('log:'+dk, false);
-      todayLog = t ? JSON.parse(t.value) : {quests:{}, weight:null};
-    }catch(e){ todayLog = {quests:{}, weight:null}; }
-
-    try{
-      const list = await window.storage.list('log:', false);
-      allLogKeys = (list && list.keys) ? list.keys.sort() : [];
-    }catch(e){ allLogKeys = []; }
+    try{ const p = await window.storage.get('profile',false); profile = p ? JSON.parse(p.value) : null; }catch(e){ profile=null; }
+    try{ const t = await window.storage.get('log:'+dk,false); todayLog = t ? JSON.parse(t.value) : {quests:{},weight:null}; }catch(e){ todayLog={quests:{},weight:null}; }
+    try{ const list = await window.storage.list('log:',false); allLogKeys = (list&&list.keys) ? list.keys.sort() : []; }catch(e){ allLogKeys=[]; }
+    try{ const et = await window.storage.get('equippedTitle',false); equippedTitle = et ? et.value : ''; }catch(e){ equippedTitle=''; }
+    try{ const cg = await window.storage.get('customGoals',false); customGoals = cg ? JSON.parse(cg.value) : []; }catch(e){ customGoals=[]; }
 
     renderProfile();
     await computeAttrsAndRender();
     renderQuests();
+    renderLegacyQuests();
     await computeStreak();
+    renderTitles();
+    renderGoals();
+    await renderAchievements();
     document.getElementById('statusNote').textContent = 'Your record is private to this device.';
+  }
+
+  function getRankTitle(lvl){
+    let t = LEVEL_TITLES[0].title;
+    for(const l of LEVEL_TITLES){ if(lvl >= l.min) t = l.title; }
+    return t;
   }
 
   function renderProfile(){
@@ -482,8 +742,8 @@
       document.getElementById('setupBlock').style.display = 'none';
       document.getElementById('ledgerBlock').style.display = 'block';
       const goalWeight = profile.startWeight - profile.goalLoss;
-      document.getElementById('ledgerStart').textContent = 'Start ' + profile.startWeight + ' lbs';
-      document.getElementById('ledgerGoal').textContent = 'Goal ' + goalWeight.toFixed(1) + ' lbs';
+      document.getElementById('ledgerStart').textContent = 'Start '+profile.startWeight+' lbs';
+      document.getElementById('ledgerGoal').textContent = 'Goal '+goalWeight.toFixed(1)+' lbs';
     } else {
       document.getElementById('setupBlock').style.display = 'block';
       document.getElementById('ledgerBlock').style.display = 'none';
@@ -493,29 +753,24 @@
   async function getAllLogs(){
     const logs = [];
     for(const k of allLogKeys){
-      try{
-        const r = await window.storage.get(k, false);
-        if(r) logs.push({key:k, data: JSON.parse(r.value)});
-      }catch(e){}
+      try{ const r = await window.storage.get(k,false); if(r) logs.push({key:k, data:JSON.parse(r.value)}); }catch(e){}
     }
-    return logs.sort((a,b)=> a.key.localeCompare(b.key));
+    return logs.sort((a,b)=>a.key.localeCompare(b.key));
   }
 
   async function computeAttrsAndRender(){
     const logs = await getAllLogs();
-    const totals = {strength:0, discipline:0, vigor:0, vitality:0};
+    const totals = {strength:0, discipline:0, vigor:0, vitality:0, legacy:0, mind:0};
     let totalXP = 0;
     logs.forEach(l=>{
       const q = l.data.quests || {};
       Object.keys(q).forEach(qid=>{
         if(!q[qid]) return;
-        const all = [...BASE_QUESTS, FAST_QUEST];
+        const all = [...BASE_QUESTS, FAST_QUEST, ...LEGACY_QUESTS];
         const def = all.find(x=>x.id===qid);
-        if(def){ totals[def.attr] += def.xp; totalXP += def.xp; }
+        if(def){ totals[def.attr] = (totals[def.attr]||0) + def.xp; totalXP += def.xp; }
       });
     });
-
-    // weight loss contributes to vitality
     if(profile && profile.startWeight){
       const lastWeighted = [...logs].reverse().find(l=>l.data.weight);
       if(lastWeighted){
@@ -525,7 +780,6 @@
       }
     }
 
-    // render attribute bars, cap visual at 300 xp per attr for a "level"
     const grid = document.getElementById('statsGrid');
     grid.innerHTML = '';
     ATTRS.forEach(a=>{
@@ -544,48 +798,57 @@
       grid.appendChild(div);
     });
 
-    // overall level from total XP
-    const overallLvl = Math.min(LEVEL_TITLES.length, Math.floor(totalXP/150) + 1);
-    const title = LEVEL_TITLES[overallLvl-1];
+    const overallLvl = Math.min(50, Math.floor(totalXP/150) + 1);
+    const rankTitle = getRankTitle(overallLvl);
     document.getElementById('sigilLevel').textContent = overallLvl;
-    document.getElementById('titleLine').textContent = 'The Path — ' + title;
+    document.getElementById('titleLine').textContent = 'The Path — '+rankTitle;
+    document.getElementById('equippedTitleDisplay').textContent = equippedTitle ? equippedTitle : '';
     const xpIntoLevel = totalXP % 150;
     document.getElementById('xpLabel').textContent = xpIntoLevel + ' / 150 XP to next rank';
     document.getElementById('xpFill').style.width = Math.min(100,(xpIntoLevel/150)*100) + '%';
     document.getElementById('sigilRing').style.setProperty('--pct', Math.min(100,(xpIntoLevel/150)*100));
 
-    // weight ledger fill
     if(profile && profile.startWeight){
       const lastWeighted = [...logs].reverse().find(l=>l.data.weight);
       const current = lastWeighted ? lastWeighted.data.weight : profile.startWeight;
-      const goalWeight = profile.startWeight - profile.goalLoss;
       const lost = Math.max(0, profile.startWeight - current);
       const pct = Math.max(0, Math.min(100, (lost/profile.goalLoss)*100));
-      document.getElementById('ledgerFill').style.width = pct + '%';
-      document.getElementById('ledgerCurrent').textContent = current.toFixed(1) + ' lbs';
-      document.getElementById('ledgerLost').textContent = lost.toFixed(1) + ' lbs';
+      document.getElementById('ledgerFill').style.width = pct+'%';
+      document.getElementById('ledgerCurrent').textContent = current.toFixed(1)+' lbs';
+      document.getElementById('ledgerLost').textContent = lost.toFixed(1)+' lbs';
     }
   }
 
-  function renderQuests(){
-    const list = document.getElementById('questList');
+  function renderQuestList(containerId, quests, log){
+    const list = document.getElementById(containerId);
     list.innerHTML = '';
-    questsForToday.forEach(q=>{
-      const done = !!todayLog.quests[q.id];
+    let lastCat = null;
+    quests.forEach(q=>{
+      if(q.cat && q.cat !== lastCat){
+        lastCat = q.cat;
+        const div = document.createElement('div');
+        div.className = 'category-divider';
+        div.textContent = q.cat;
+        list.appendChild(div);
+      }
+      const done = !!(log.quests && log.quests[q.id]);
       const row = document.createElement('div');
-      row.className = 'quest' + (done ? ' done' : '');
+      row.className = 'quest'+(done ? ' done' : '');
       row.innerHTML = `
         <div class="quest-box">${done ? '✓' : ''}</div>
         <div class="quest-text">${q.text}</div>
         <div class="quest-tag">${q.tag}</div>
         <div class="quest-xp">+${q.xp}</div>
       `;
-      row.addEventListener('click', ()=> toggleQuest(q.id));
+      row.addEventListener('click', ()=> toggleQuest(q.id, containerId));
       list.appendChild(row);
     });
   }
 
-  async function toggleQuest(id){
+  function renderQuests(){ renderQuestList('questList', questsForToday, todayLog); }
+  function renderLegacyQuests(){ renderQuestList('legacyQuestList', LEGACY_QUESTS, todayLog); }
+
+  async function toggleQuest(id, containerId){
     todayLog.quests[id] = !todayLog.quests[id];
     try{
       await window.storage.set('log:'+dk, JSON.stringify(todayLog), false);
@@ -595,13 +858,14 @@
       return;
     }
     renderQuests();
+    renderLegacyQuests();
     await computeAttrsAndRender();
     await computeStreak();
+    await renderAchievements();
   }
 
   async function computeStreak(){
     const logs = await getAllLogs();
-    // walk backward from today counting consecutive days with >=1 quest done
     let streak = 0;
     let cursor = new Date(now);
     for(let i=0;i<365;i++){
@@ -612,47 +876,169 @@
       else break;
     }
     document.getElementById('streakNum').textContent = streak;
+    return streak;
   }
 
-  document.getElementById('saveProfile').addEventListener('click', async ()=>{
-    const sw = parseFloat(document.getElementById('startWeight').value);
-    const gl = parseFloat(document.getElementById('goalLoss').value) || 30;
-    if(!sw || sw <= 0){ document.getElementById('statusNote').textContent = 'Enter a starting weight first.'; return; }
-    profile = {startWeight: sw, goalLoss: gl};
-    try{
-      await window.storage.set('profile', JSON.stringify(profile), false);
-    }catch(e){}
+  async function buildStats(){
+    const logs = await getAllLogs();
+    let trainStreak=0, trainDays=0, readDays=0, meditateDays=0, codeDays=0, mealDays=0;
+    let supplementWeek=0, lostLbs=0, streak=0, phoenix=false, perfectWeek=false;
+    let prevMissed=0;
+    logs.forEach(l=>{
+      const q = l.data.quests||{};
+      if(q.train) { trainDays++; trainStreak++; } else { trainStreak=0; }
+      if(q.read) readDays++;
+      if(q.meditate) meditateDays++;
+      if(q.code) codeDays++;
+      if(q.meals) mealDays++;
+      const suppCount = ['l_fishoil','l_coq10','l_multivit','l_vitd','l_zinc','l_selenium'].filter(k=>q[k]).length;
+      if(suppCount>=4) supplementWeek++;
+      else supplementWeek=0;
+    });
+    // phoenix: logs with gap >14 days
+    for(let i=1;i<logs.length;i++){
+      const a = new Date(logs[i-1].key.replace('log:',''));
+      const b = new Date(logs[i].key.replace('log:',''));
+      const diff = (b-a)/(1000*60*60*24);
+      if(diff > 14){ phoenix=true; break; }
+    }
+    // perfect week: 7 consecutive days with all quests done
+    for(let i=0;i<=logs.length-7;i++){
+      const week = logs.slice(i,i+7);
+      const allDone = week.every(l=>{
+        const q=l.data.quests||{};
+        return BASE_QUESTS.every(bq=>q[bq.id]);
+      });
+      if(allDone){ perfectWeek=true; break; }
+    }
+    // streak
+    let cur=new Date(now);
+    for(let i=0;i<365;i++){
+      const key='log:'+todayKey(cur);
+      const entry=logs.find(l=>l.key===key);
+      const hasAny=entry&&entry.data.quests&&Object.values(entry.data.quests).some(v=>v);
+      if(hasAny){ streak++; cur.setDate(cur.getDate()-1); } else break;
+    }
+    if(profile&&profile.startWeight){
+      const lastWeighted=[...logs].reverse().find(l=>l.data.weight);
+      if(lastWeighted) lostLbs=Math.max(0,profile.startWeight-lastWeighted.data.weight);
+    }
+    return {trainStreak,trainDays,readDays,meditateDays,codeDays,mealDays,supplementWeek,lostLbs,streak,phoenix,perfectWeek,earlyDays:0};
+  }
+
+  async function renderAchievements(){
+    const stats = await buildStats();
+    const grid = document.getElementById('achievementGrid');
+    grid.innerHTML='';
+    ACHIEVEMENTS.forEach(a=>{
+      const unlocked = a.req(stats);
+      const div=document.createElement('div');
+      div.className='achievement'+(unlocked?' unlocked':'');
+      div.innerHTML=`
+        <div class="ach-icon">${a.icon}</div>
+        <div class="ach-name">${a.name}</div>
+        <div class="ach-desc">${a.desc}</div>
+      `;
+      grid.appendChild(div);
+    });
+  }
+
+  function renderTitles(){
+    const grid = document.getElementById('titlesGrid');
+    grid.innerHTML='';
+    EQUIP_TITLES.forEach(t=>{
+      const chip=document.createElement('div');
+      chip.className='title-chip'+(equippedTitle===t?' equipped':'');
+      chip.textContent=t;
+      chip.addEventListener('click',async()=>{
+        equippedTitle = equippedTitle===t ? '' : t;
+        try{ await window.storage.set('equippedTitle', equippedTitle, false); }catch(e){}
+        renderTitles();
+        document.getElementById('equippedTitleDisplay').textContent = equippedTitle || '';
+      });
+      grid.appendChild(chip);
+    });
+  }
+
+  function renderGoals(){
+    const list=document.getElementById('goalsList');
+    list.innerHTML='';
+    if(!customGoals.length){
+      const p=document.createElement('p');
+      p.style.cssText='font-size:13px;color:var(--muted);font-style:italic;';
+      p.textContent='No goals set yet. Add your first goal below.';
+      list.appendChild(p);
+      return;
+    }
+    customGoals.forEach((g,i)=>{
+      const row=document.createElement('div');
+      row.className='goal-item';
+      row.innerHTML=`
+        <span class="goal-name">${g.name}</span>
+        <span class="goal-val">${g.current||0} / ${g.target}</span>
+      `;
+      row.style.cursor='pointer';
+      row.title='Click to increment';
+      row.addEventListener('click',async()=>{
+        customGoals[i].current=(customGoals[i].current||0)+1;
+        try{ await window.storage.set('customGoals',JSON.stringify(customGoals),false); }catch(e){}
+        renderGoals();
+      });
+      list.appendChild(row);
+    });
+  }
+
+  document.getElementById('saveProfile').addEventListener('click', async()=>{
+    const sw=parseFloat(document.getElementById('startWeight').value);
+    const gl=parseFloat(document.getElementById('goalLoss').value)||30;
+    if(!sw||sw<=0){ document.getElementById('statusNote').textContent='Enter a starting weight first.'; return; }
+    profile={startWeight:sw,goalLoss:gl};
+    try{ await window.storage.set('profile',JSON.stringify(profile),false); }catch(e){}
     renderProfile();
     await computeAttrsAndRender();
   });
 
-  document.getElementById('editProfile').addEventListener('click', ()=>{
-    document.getElementById('setupBlock').style.display = 'block';
-    document.getElementById('ledgerBlock').style.display = 'none';
-    if(profile){
-      document.getElementById('startWeight').value = profile.startWeight;
-      document.getElementById('goalLoss').value = profile.goalLoss;
-    }
+  document.getElementById('editProfile').addEventListener('click',()=>{
+    document.getElementById('setupBlock').style.display='block';
+    document.getElementById('ledgerBlock').style.display='none';
+    if(profile){ document.getElementById('startWeight').value=profile.startWeight; document.getElementById('goalLoss').value=profile.goalLoss; }
   });
 
-  document.getElementById('logWeight').addEventListener('click', async ()=>{
-    const w = parseFloat(document.getElementById('weightInput').value);
-    if(!w || w<=0){ document.getElementById('statusNote').textContent = 'Enter a valid weight.'; return; }
-    todayLog.weight = w;
+  document.getElementById('logWeight').addEventListener('click', async()=>{
+    const w=parseFloat(document.getElementById('weightInput').value);
+    if(!w||w<=0){ document.getElementById('statusNote').textContent='Enter a valid weight.'; return; }
+    todayLog.weight=w;
     try{
-      await window.storage.set('log:'+dk, JSON.stringify(todayLog), false);
+      await window.storage.set('log:'+dk,JSON.stringify(todayLog),false);
       if(!allLogKeys.includes('log:'+dk)) allLogKeys.push('log:'+dk);
-    }catch(e){
-      document.getElementById('statusNote').textContent = 'Could not save weight — try again.';
-      return;
-    }
-    document.getElementById('weightInput').value = '';
-    document.getElementById('statusNote').textContent = 'Weight logged for today.';
+    }catch(e){ document.getElementById('statusNote').textContent='Could not save weight — try again.'; return; }
+    document.getElementById('weightInput').value='';
+    document.getElementById('statusNote').textContent='Weight logged for today.';
     await computeAttrsAndRender();
+  });
+
+  document.getElementById('addGoalBtn').addEventListener('click', async()=>{
+    const name=document.getElementById('goalName').value.trim();
+    const target=parseFloat(document.getElementById('goalTarget').value);
+    if(!name||!target||target<=0){ document.getElementById('statusNote').textContent='Enter a goal name and target.'; return; }
+    customGoals.push({name,target,current:0});
+    try{ await window.storage.set('customGoals',JSON.stringify(customGoals),false); }catch(e){}
+    document.getElementById('goalName').value='';
+    document.getElementById('goalTarget').value='';
+    renderGoals();
+  });
+
+  document.getElementById('sigilBtn').addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    const titlesBtn=document.querySelector('[data-tab="titles"]');
+    if(titlesBtn) titlesBtn.classList.add('active');
+    document.getElementById('sec-titles').classList.add('active');
   });
 
   loadAll();
 })();
 </script>
-</body>
+  <script src="/_sdk/0a2c59aba90bafcf.editing_sdk.js" integrity="sha512-oJ0eVi6NgEzXGPCIPXJiGxB6ZRyIzQ1VF+WywtAc5NXBkRu8KT/0qsMQvecuVbkhSpdfToUqXoPwRVBZaa+Xxw=="></script>
+ </body>
 </html>
