@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12151a;
+    --panel:#1b1f26;
+    --panel-2:#20252d;
+    --border:#2d333d;
+    --parchment:#ddd3ba;
+    --muted:#8a93a3;
+    --rust:#b1543a;
+    --rust-dim:#7a3c2a;
+    --steel:#5b7a94;
+    --steel-dim:#3f5566;
+    --gold:#c9a24b;
+    --green:#6f9c76;
+    --shadow: 0 8px 24px rgba(0,0,0,0.45);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top, #1a1e25 0%, var(--ink) 55%),
+      var(--ink);
+    color:var(--parchment);
+    font-family:'Spectral', serif;
+    min-height:100vh;
+    padding:28px 16px 60px;
+  }
+  .wrap{max-width:640px;margin:0 auto;}
+
+  /* ---- Header / Sigil ---- */
+  .header{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:28px;
+  }
+  .sigil{
+    position:relative;
+    width:74px;height:74px;flex:0 0 74px;
+    border-radius:50%;
+  }
+  .sigil-ring{
+    position:absolute;inset:0;
+    border-radius:50%;
+    background:conic-gradient(var(--gold) calc(var(--pct,0)*1%), #2a2f38 0);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+  }
+  .sigil-core{
+    position:absolute; inset:8px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #2a303a, #171a20 70%);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:22px;
+    color:var(--gold);
+  }
+  .title-block{flex:1;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  h1{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 8px;
+    letter-spacing:.02em;
+    color:var(--parchment);
+  }
+  .xp-row{
+    display:flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .xp-track{
+    flex:1;height:6px;border-radius:3px;
+    background:#262b33;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .xp-fill{height:100%; background:linear-gradient(90deg,var(--rust-dim),var(--gold)); transition:width .4s ease;}
+
+  /* ---- Panels ---- */
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:var(--shadow);
+  }
+  .panel h2{
+    font-family:'Cinzel',serif;
+    font-size:14px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 16px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .panel h2::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ---- Stats grid ---- */
+  .stats-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px 20px;
+  }
+  .stat{}
+  .stat-top{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:6px;
+  }
+  .stat-name{
+    font-family:'Cinzel',serif;
+    font-size:12.5px;
+    letter-spacing:.06em;
+    color:var(--parchment);
+  }
+  .stat-lvl{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .stat-bar{
+    height:8px; border-radius:4px;
+    background:#262b33;
+    border:1px solid var(--border);
+    overflow:hidden;
+  }
+  .stat-fill{height:100%; transition:width .4s ease;}
+  .fill-strength{background:linear-gradient(90deg,var(--rust-dim),var(--rust));}
+  .fill-discipline{background:linear-gradient(90deg,var(--steel-dim),var(--steel));}
+  .fill-vigor{background:linear-gradient(90deg,#3f6b5a,var(--green));}
+  .fill-vitality{background:linear-gradient(90deg,#8a6a2a,var(--gold));}
+
+  /* ---- Quest list ---- */
+  .quest-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    margin:-10px 0 14px;
+  }
+  .quest{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 10px;
+    border-radius:8px;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:background .15s ease, border-color .15s ease;
+    user-select:none;
+  }
+  .quest:hover{background:var(--panel-2);}
+  .quest.done{
+    background:rgba(111,156,118,0.08);
+    border-color:rgba(111,156,118,0.25);
+  }
+  .quest-box{
+    width:20px;height:20px;flex:0 0 20px;
+    border:1.5px solid var(--muted);
+    border-radius:4px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;
+    color:var(--green);
+  }
+  .quest.done .quest-box{border-color:var(--green); background:rgba(111,156,118,0.15);}
+  .quest-text{flex:1; font-size:15px;}
+  .quest.done .quest-text{color:var(--muted); text-decoration:line-through; text-decoration-color:#4a5260;}
+  .quest-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--muted);
+    padding:3px 7px;
+    border:1px solid var(--border);
+    border-radius:20px;
+  }
+  .quest-xp{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--gold);
+    min-width:34px;
+    text-align:right;
+  }
+  .fast-note{
+    margin-top:10px;
+    font-size:12.5px;
+    color:var(--muted);
+    font-style:italic;
+  }
+
+  /* ---- Weight ledger ---- */
+  .ledger-top{
+    display:flex; justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .ledger-track{
+    height:10px; border-radius:5px;
+    background:#262b33; border:1px solid var(--border);
+    overflow:hidden;
+    margin-bottom:16px;
+  }
+  .ledger-fill{height:100%; background:linear-gradient(90deg,var(--rust-dim),var(--gold)); transition:width .4s ease;}
+  .ledger-nums{
+    display:flex; justify-content:space-between;
+    font-size:13px; color:var(--parchment);
+    margin-bottom:18px;
+  }
+  .ledger-nums b{color:var(--gold); font-family:'JetBrains Mono',monospace;}
+  .weight-form{display:flex; gap:10px; flex-wrap:wrap;}
+  input[type="number"]{
+    flex:1; min-width:120px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--parchment);
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    padding:10px 12px;
+    border-radius:6px;
+    outline:none;
+  }
+  input[type="number"]:focus{border-color:var(--steel);}
+  button{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:12.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    background:var(--rust);
+    color:#fff2ea;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  button:hover{background:#c25f42;}
+  button:active{transform:scale(.97);}
+  button.ghost{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--muted);
+  }
+  button.ghost:hover{border-color:var(--steel); color:var(--parchment); background:transparent;}
+
+  .setup-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px;}
+  .setup-row label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;
+    color:var(--muted);
+    display:block;
+    margin-bottom:5px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+  .setup-field{flex:1; min-width:110px;}
+
+  /* ---- Streak ---- */
+  .streak-row{
+    display:flex; align-items:center; gap:16px;
+  }
+  .streak-flame{
+    font-family:'Cinzel',serif;
+    font-size:32px;
+    font-weight:900;
+    color:var(--gold);
+    line-height:1;
+  }
+  .streak-label{font-size:13px; color:var(--muted); line-height:1.5;}
+
+  .footer-note{
+    text-align:center;
+    font-size:11.5px;
+    color:#5c6472;
+    margin-top:24px;
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:.03em;
+  }
+
+  @media (max-width:420px){
+    .stats-grid{grid-template-columns:1fr;}
+    h1{font-size:22px;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="sigil">
+      <div class="sigil-ring" id="sigilRing"></div>
+      <div class="sigil-core" id="sigilLevel">1</div>
+    </div>
+    <div class="title-block">
+      <div class="eyebrow" id="dateLabel">—</div>
+      <h1 id="titleLine">The Path — Wanderer</h1>
+      <div class="xp-row">
+        <span id="xpLabel">0 / 100 XP</span>
+        <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Attributes</h2>
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Today's Trials</h2>
+    <div class="quest-date" id="questDate">—</div>
+    <div id="questList"></div>
+    <div class="fast-note" id="fastNote"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Weight Ledger</h2>
+    <div id="setupBlock">
+      <div class="setup-row">
+        <div class="setup-field">
+          <label>Starting Weight</label>
+          <input type="number" id="startWeight" placeholder="e.g. 210">
+        </div>
+        <div class="setup-field">
+          <label>Goal Loss (lbs)</label>
+          <input type="number" id="goalLoss" placeholder="e.g. 30" value="30">
+        </div>
+      </div>
+      <button id="saveProfile">Begin the Ledger</button>
+    </div>
+    <div id="ledgerBlock" style="display:none;">
+      <div class="ledger-top"><span id="ledgerStart">Start —</span><span id="ledgerGoal">Goal —</span></div>
+      <div class="ledger-track"><div class="ledger-fill" id="ledgerFill" style="width:0%"></div></div>
+      <div class="ledger-nums">
+        <span>Current: <b id="ledgerCurrent">—</b></span>
+        <span>Lost so far: <b id="ledgerLost">—</b></span>
+      </div>
+      <div class="weight-form">
+        <input type="number" id="weightInput" placeholder="Log today's weight (lbs)" step="0.1">
+        <button id="logWeight">Log Weight</button>
+        <button class="ghost" id="editProfile">Edit Goal</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Unbroken Streak</h2>
+    <div class="streak-row">
+      <div class="streak-flame" id="streakNum">0</div>
+      <div class="streak-label">days of trials logged in a row.<br>Miss a day and the count resets — the Path forgives, but it doesn't forget.</div>
+    </div>
+  </div>
+
+  <div class="footer-note" id="statusNote">loading your record...</div>
+</div>
+
+<script>
+(function(){
+  const ATTRS = [
+    {key:'strength', name:'Strength', cls:'fill-strength'},
+    {key:'discipline', name:'Discipline', cls:'fill-discipline'},
+    {key:'vigor', name:'Vigor', cls:'fill-vigor'},
+    {key:'vitality', name:'Vitality', cls:'fill-vitality'},
+  ];
+
+  const BASE_QUESTS = [
+    {id:'train', text:'Trained today', tag:'STR', attr:'strength', xp:15},
+    {id:'meals', text:'Ate on the Path (stuck to the plan)', tag:'DISC', attr:'discipline', xp:15},
+    {id:'sleep', text:'Slept 7–8 hours', tag:'VIG', attr:'vigor', xp:10},
+    {id:'water', text:'Hit your water mark', tag:'VIG', attr:'vigor', xp:5},
+    {id:'noheat', text:'No hot tub / sauna / long hot bath', tag:'VIT', attr:'vitality', xp:5},
+  ];
+  const FAST_QUEST = {id:'fastwindow', text:'Held the fasting window (12–8pm)', tag:'DISC', attr:'discipline', xp:20};
+
+  const LEVEL_TITLES = ['Wanderer','Initiate','Adept','Warden','Sworn','Master of the Path'];
+
+  function todayKey(d){
+    return d.toISOString().slice(0,10);
+  }
+  function isFastDay(d){
+    const day = d.getDay(); // 0 Sun, 3 Wed
+    return day === 0 || day === 3;
+  }
+  function fmtDate(d){
+    return d.toLocaleDateString(undefined,{weekday:'long', month:'short', day:'numeric'});
+  }
+
+  const now = new Date();
+  const dk = todayKey(now);
+  const questsForToday = isFastDay(now) ? [...BASE_QUESTS, FAST_QUEST] : BASE_QUESTS;
+
+  document.getElementById('dateLabel').textContent = fmtDate(now).toUpperCase();
+  document.getElementById('questDate').textContent = fmtDate(now);
+  document.getElementById('fastNote').textContent = isFastDay(now)
+    ? "Fasting day — eating window 12pm–8pm. Extra XP for holding it."
+    : "";
+
+  let profile = null;   // {startWeight, goalLoss}
+  let todayLog = {quests:{}, weight:null};
+  let allLogKeys = [];
+
+  async function loadAll(){
+    try{
+      const p = await window.storage.get('profile', false);
+      profile = p ? JSON.parse(p.value) : null;
+    }catch(e){ profile = null; }
+
+    try{
+      const t = await window.storage.get('log:'+dk, false);
+      todayLog = t ? JSON.parse(t.value) : {quests:{}, weight:null};
+    }catch(e){ todayLog = {quests:{}, weight:null}; }
+
+    try{
+      const list = await window.storage.list('log:', false);
+      allLogKeys = (list && list.keys) ? list.keys.sort() : [];
+    }catch(e){ allLogKeys = []; }
+
+    renderProfile();
+    await computeAttrsAndRender();
+    renderQuests();
+    await computeStreak();
+    document.getElementById('statusNote').textContent = 'Your record is private to this device.';
+  }
+
+  function renderProfile(){
+    if(profile && profile.startWeight){
+      document.getElementById('setupBlock').style.display = 'none';
+      document.getElementById('ledgerBlock').style.display = 'block';
+      const goalWeight = profile.startWeight - profile.goalLoss;
+      document.getElementById('ledgerStart').textContent = 'Start ' + profile.startWeight + ' lbs';
+      document.getElementById('ledgerGoal').textContent = 'Goal ' + goalWeight.toFixed(1) + ' lbs';
+    } else {
+      document.getElementById('setupBlock').style.display = 'block';
+      document.getElementById('ledgerBlock').style.display = 'none';
+    }
+  }
+
+  async function getAllLogs(){
+    const logs = [];
+    for(const k of allLogKeys){
+      try{
+        const r = await window.storage.get(k, false);
+        if(r) logs.push({key:k, data: JSON.parse(r.value)});
+      }catch(e){}
+    }
+    return logs.sort((a,b)=> a.key.localeCompare(b.key));
+  }
+
+  async function computeAttrsAndRender(){
+    const logs = await getAllLogs();
+    const totals = {strength:0, discipline:0, vigor:0, vitality:0};
+    let totalXP = 0;
+    logs.forEach(l=>{
+      const q = l.data.quests || {};
+      Object.keys(q).forEach(qid=>{
+        if(!q[qid]) return;
+        const all = [...BASE_QUESTS, FAST_QUEST];
+        const def = all.find(x=>x.id===qid);
+        if(def){ totals[def.attr] += def.xp; totalXP += def.xp; }
+      });
+    });
+
+    // weight loss contributes to vitality
+    if(profile && profile.startWeight){
+      const lastWeighted = [...logs].reverse().find(l=>l.data.weight);
+      if(lastWeighted){
+        const lost = Math.max(0, profile.startWeight - lastWeighted.data.weight);
+        totals.vitality += Math.round(lost * 8);
+        totalXP += Math.round(lost*8);
+      }
+    }
+
+    // render attribute bars, cap visual at 300 xp per attr for a "level"
+    const grid = document.getElementById('statsGrid');
+    grid.innerHTML = '';
+    ATTRS.forEach(a=>{
+      const xp = totals[a.key] || 0;
+      const lvl = Math.floor(xp/100) + 1;
+      const pct = Math.min(100, xp % 100);
+      const div = document.createElement('div');
+      div.className = 'stat';
+      div.innerHTML = `
+        <div class="stat-top">
+          <span class="stat-name">${a.name}</span>
+          <span class="stat-lvl">Lv ${lvl}</span>
+        </div>
+        <div class="stat-bar"><div class="stat-fill ${a.cls}" style="width:${pct}%"></div></div>
+      `;
+      grid.appendChild(div);
+    });
+
+    // overall level from total XP
+    const overallLvl = Math.min(LEVEL_TITLES.length, Math.floor(totalXP/150) + 1);
+    const title = LEVEL_TITLES[overallLvl-1];
+    document.getElementById('sigilLevel').textContent = overallLvl;
+    document.getElementById('titleLine').textContent = 'The Path — ' + title;
+    const xpIntoLevel = totalXP % 150;
+    document.getElementById('xpLabel').textContent = xpIntoLevel + ' / 150 XP to next rank';
+    document.getElementById('xpFill').style.width = Math.min(100,(xpIntoLevel/150)*100) + '%';
+    document.getElementById('sigilRing').style.setProperty('--pct', Math.min(100,(xpIntoLevel/150)*100));
+
+    // weight ledger fill
+    if(profile && profile.startWeight){
+      const lastWeighted = [...logs].reverse().find(l=>l.data.weight);
+      const current = lastWeighted ? lastWeighted.data.weight : profile.startWeight;
+      const goalWeight = profile.startWeight - profile.goalLoss;
+      const lost = Math.max(0, profile.startWeight - current);
+      const pct = Math.max(0, Math.min(100, (lost/profile.goalLoss)*100));
+      document.getElementById('ledgerFill').style.width = pct + '%';
+      document.getElementById('ledgerCurrent').textContent = current.toFixed(1) + ' lbs';
+      document.getElementById('ledgerLost').textContent = lost.toFixed(1) + ' lbs';
+    }
+  }
+
+  function renderQuests(){
+    const list = document.getElementById('questList');
+    list.innerHTML = '';
+    questsForToday.forEach(q=>{
+      const done = !!todayLog.quests[q.id];
+      const row = document.createElement('div');
+      row.className = 'quest' + (done ? ' done' : '');
+      row.innerHTML = `
+        <div class="quest-box">${done ? '✓' : ''}</div>
+        <div class="quest-text">${q.text}</div>
+        <div class="quest-tag">${q.tag}</div>
+        <div class="quest-xp">+${q.xp}</div>
+      `;
+      row.addEventListener('click', ()=> toggleQuest(q.id));
+      list.appendChild(row);
+    });
+  }
+
+  async function toggleQuest(id){
+    todayLog.quests[id] = !todayLog.quests[id];
+    try{
+      await window.storage.set('log:'+dk, JSON.stringify(todayLog), false);
+      if(!allLogKeys.includes('log:'+dk)) allLogKeys.push('log:'+dk);
+    }catch(e){
+      document.getElementById('statusNote').textContent = 'Could not save — try again.';
+      return;
+    }
+    renderQuests();
+    await computeAttrsAndRender();
+    await computeStreak();
+  }
+
+  async function computeStreak(){
+    const logs = await getAllLogs();
+    // walk backward from today counting consecutive days with >=1 quest done
+    let streak = 0;
+    let cursor = new Date(now);
+    for(let i=0;i<365;i++){
+      const key = 'log:'+todayKey(cursor);
+      const entry = logs.find(l=>l.key===key);
+      const hasAny = entry && entry.data.quests && Object.values(entry.data.quests).some(v=>v);
+      if(hasAny){ streak++; cursor.setDate(cursor.getDate()-1); }
+      else break;
+    }
+    document.getElementById('streakNum').textContent = streak;
+  }
+
+  document.getElementById('saveProfile').addEventListener('click', async ()=>{
+    const sw = parseFloat(document.getElementById('startWeight').value);
+    const gl = parseFloat(document.getElementById('goalLoss').value) || 30;
+    if(!sw || sw <= 0){ document.getElementById('statusNote').textContent = 'Enter a starting weight first.'; return; }
+    profile = {startWeight: sw, goalLoss: gl};
+    try{
+      await window.storage.set('profile', JSON.stringify(profile), false);
+    }catch(e){}
+    renderProfile();
+    await computeAttrsAndRender();
+  });
+
+  document.getElementById('editProfile').addEventListener('click', ()=>{
+    document.getElementById('setupBlock').style.display = 'block';
+    document.getElementById('ledgerBlock').style.display = 'none';
+    if(profile){
+      document.getElementById('startWeight').value = profile.startWeight;
+      document.getElementById('goalLoss').value = profile.goalLoss;
+    }
+  });
+
+  document.getElementById('logWeight').addEventListener('click', async ()=>{
+    const w = parseFloat(document.getElementById('weightInput').value);
+    if(!w || w<=0){ document.getElementById('statusNote').textContent = 'Enter a valid weight.'; return; }
+    todayLog.weight = w;
+    try{
+      await window.storage.set('log:'+dk, JSON.stringify(todayLog), false);
+      if(!allLogKeys.includes('log:'+dk)) allLogKeys.push('log:'+dk);
+    }catch(e){
+      document.getElementById('statusNote').textContent = 'Could not save weight — try again.';
+      return;
+    }
+    document.getElementById('weightInput').value = '';
+    document.getElementById('statusNote').textContent = 'Weight logged for today.';
+    await computeAttrsAndRender();
+  });
+
+  loadAll();
+})();
+</script>
+</body>
+</html>
