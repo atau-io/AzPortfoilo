@@ -634,14 +634,12 @@
 
   const LEGACY_QUESTS = [
     {id:'l_fishoil', text:'Fish oil taken', tag:'LEG', attr:'legacy', xp:5},
-    {id:'l_coq10', text:'CoQ10 taken', tag:'LEG', attr:'legacy', xp:5},
     {id:'l_multivit', text:'Multivitamin / prenatal taken', tag:'LEG', attr:'legacy', xp:5},
     {id:'l_vitd', text:'Vitamin D taken', tag:'LEG', attr:'legacy', xp:5},
     {id:'l_zinc', text:'Zinc taken', tag:'LEG', attr:'legacy', xp:5},
     {id:'l_selenium', text:'Selenium taken', tag:'LEG', attr:'legacy', xp:5},
     {id:'l_exercise', text:'Exercise completed (legacy boost)', tag:'LEG', attr:'legacy', xp:10},
     {id:'l_sleep', text:'Quality sleep (7–8 hrs)', tag:'LEG', attr:'legacy', xp:8},
-    {id:'l_nonicotine', text:'Nicotine-free day', tag:'LEG', attr:'legacy', xp:10},
     {id:'l_noalcohol', text:'Alcohol-free day', tag:'LEG', attr:'legacy', xp:8},
     {id:'l_hydration', text:'Full hydration hit', tag:'LEG', attr:'legacy', xp:5},
     {id:'l_noheat', text:'Managed heat exposure', tag:'LEG', attr:'legacy', xp:5},
@@ -891,7 +889,7 @@
       if(q.meditate) meditateDays++;
       if(q.code) codeDays++;
       if(q.meals) mealDays++;
-      const suppCount = ['l_fishoil','l_coq10','l_multivit','l_vitd','l_zinc','l_selenium'].filter(k=>q[k]).length;
+      const suppCount = ['l_fishoil','l_coq10','l_vitd','l_zinc','l_selenium'].filter(k=>q[k]).length;
       if(suppCount>=4) supplementWeek++;
       else supplementWeek=0;
     });
