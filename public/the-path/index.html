@@ -385,6 +385,32 @@
 
 <script>
 (function(){
+    // Canva supplies window.storage when hosted inside Canva.
+  // Azure does not, so use the browser's localStorage instead.
+  if (!window.storage) {
+    window.storage = {
+      async get(key) {
+        const value = localStorage.getItem(key);
+
+        return value === null
+          ? null
+          : { key, value };
+      },
+
+      async set(key, value) {
+        localStorage.setItem(key, value);
+        return { key, value };
+      },
+
+      async list(prefix = '') {
+        const keys = Object.keys(localStorage)
+          .filter(key => key.startsWith(prefix));
+
+        return { keys };
+      }
+    };
+  }
+  
   const ATTRS = [
     {key:'strength', name:'Strength', cls:'fill-strength'},
     {key:'discipline', name:'Discipline', cls:'fill-discipline'},
