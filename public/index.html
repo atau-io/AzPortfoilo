@@ -3,85 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="ATau.io" />
+    <link rel="manifest" href="/site.webmanifest" />
     <title>Andrew Talarico</title>
-    <link rel="stylesheet" type="text/css" href="navBarStyle.css">
-
-    <style>
-      .scanner-menu { position: relative; display: inline-block; }
-      .scanner-menu .dropdown-content { display: none; position: absolute; right: 0; top: 100%; min-width: 220px; z-index: 100; background: #171717; border: 1px solid #383838; box-shadow: 0 12px 24px #0008; }
-      .scanner-menu:hover .dropdown-content, .scanner-menu:focus-within .dropdown-content { display: block; }
-      .scanner-menu .dropdown-content a { display: block; padding: 13px 16px; color: #ff9b22; text-decoration: none; white-space: nowrap; }
-      .scanner-menu .dropdown-content a:hover, .scanner-menu .dropdown-content a:focus { background: #292929; }
-    </style>
+    <link rel="stylesheet" href="css/ATauFullStyle.css">
 </head>
 <body>
-    <header>
-        <h1>Designs and Creations by Andrew Talarico</h1>
-        <div class="navbar">
-            <a href="/">Home</a>
-            <div class="dropdown">
-                <button class="dropbtn">Showcase
-                    <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                    <a href="#">Excel</a>
-                    <a href="#">Programming</a>
-                    <a href="#" onclick="loadPage('page2.html')">RPG</a>
-                </div>
-            </div>
-			<a href="#" onclick="loadPage('submitform.html')">Submit an Issue</a>
-            <div class="dropdown scanner-menu">
-                <button class="dropbtn" type="button" aria-label="Developer Tools">Developer Tools <span aria-hidden="true">⌄</span></button>
-                <div class="dropdown-content">
-                    <a href="scanner.html">Morning Market Scanner</a>
-                </div>
-            </div>
+    <header id="navbar-placeholder"></header>
+
+    <main id="content">
+        <div class="container">
+            <section id="introduction">
+                <h2>About Me</h2>
+                <p>
+                    Passionate creator and problem solver with a love for building useful, imaginative, and immersive experiences, whether through code, design, or worldbuilding. From automating real world tools to crafting fantasy maps, I thrive on learning new systems and asking “How can I make this better?” I enjoy bridging creativity with logic and turning curious ideas into tangible, functional projects, whether it’s a game mechanic, a macro, or a homemade spice blend. When I'm not coding or designing, I’m likely in the garden, experimenting with recipes, or building new realms one idea at a time.
+                </p>
+            </section>
+
+            <section id="contact">
+                <h2>Contact Me</h2>
+                <p>
+                    Feel free to get in touch with me. If you have a bug/error to submit, please use <a href="#" onclick="loadPage('submitform.html')">this form</a>. Otherwise, you can reach me at:
+                </p>
+                <ul>
+                    <!--  <li><a href="mailto:atau.realmforge@gmail.com">atau.realmforge@gmail.com</a></li> -->
+                    <li><a href="https://www.linkedin.com/in/andrew-talarico-bbb77b31/">LinkedIn</a></li>
+                    <li><a href="https://soundcloud.com/yourusername">SoundCloud</a></li>
+                </ul>
+            </section>
         </div>
-    </header>
-	    <main id="content">
-        <!-- This is the element where you want to load different pages -->
-	<div class="container">
-		<section id="introduction">
-            <!-- General introduction about yourself -->
-            <h2>About Me</h2>
-            <p>
-                Versatile and reliable beginner developer, eager to enter the software field. Extremely quick learner with a strong passion for software development. Always asking "How can I make this better?" Excited to gain hands-on experience and contribute to projects from start to finish. Ready to collaborate effectively with teams and help streamline processes for better consistency and efficiency.
-            </p>
-        </section>
-
-		<section id="contact">
-            <h2>Contact Me</h2>
-            <p>
-                Feel free to get in touch with me. If you have a bug/error to submit, please use <a href="#" onclick="loadPage('submitform.html')">this form to submit</a>, otherwise you can reach me at:
-            </p>
-            <ul>
-                <!-- <li>Email: <a href="mailto:your@email.com">your@email.com</a></li> -->
-               <!--  <li>LinkedIn: <a href="https://www.linkedin.com/in/andrew-talarico-bbb77b31/">LinkedIn Profile</a></li> -->
-			   <li> <a href="https://www.linkedin.com/in/andrew-talarico-bbb77b31/" >LinkedIn </a> </li>
-			   <li> <a href="https://www.linkedin.com/in/andrew-talarico-bbb77b31/" >Sound Cloud </a> </li>
-			   <li> <a href="https://www.linkedin.com/in/andrew-talarico-bbb77b31/" >LinkedIn </a> </li>
-                <!-- Add more contact methods if needed -->
-            </ul>
-		</div>
-
     </main>
-        <footer>
-        <!-- Copyright or additional links -->
-        <p>&copy; 2023 Andrew Talarico</p>
-    </footer>
-    <script>
-        // JavaScript to load content via AJAX
-        function loadPage(url) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState === 4 && this.status === 200) {
-                    document.getElementById("content").innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("GET", url, true);
-            xhttp.send();
-        }
-    </script>
 
-	</body>
+    <footer>
+        <p>&copy; 2025 Andrew Talarico</p>
+
+    </footer>
+    <script src="main.js" defer></script>
+</body>
 </html>
