@@ -1,0 +1,1 @@
+Upload index.html and scanner.html to the SAME website directory. Keep your existing navBarStyle.css and other files. The supplied index.html is based on the uploaded index(1).html; it does not include any newer navigation changes not present in that file. The scanner.html download button currently points to the 3.8.2 setup filename provided. Verify the URL before sharing.
