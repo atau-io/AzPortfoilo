@@ -100,43 +100,10 @@ function loadPage(url) {
     xhttp.send();
 }
 
-// ========== INITIAL SETUP ==========
-document.addEventListener("DOMContentLoaded", () => {
-    // Inject navbar
-    fetch('navbar.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('navbar-placeholder').innerHTML = data;
 
-            const toggleBtn = document.getElementById('toggleThemeBtn');
-            if (toggleBtn) toggleBtn.addEventListener('click', toggleTheme);
-
-            //ONLY THIS listener needed
-            document.querySelectorAll('.load-link').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const url = this.getAttribute('data-url');
-                    if (url) {
-                        loadPage(url);
-
-                        //Dynamically load dragon script
-                        if (url.includes('rpgPage.html')) {
-                            const script = document.createElement('script');
-                            script.src = 'dragon.js';
-                            script.defer = true;
-                            document.body.appendChild(script);
-                        }
-                    }
-                });
-            });
-        });
-
-    // Apply saved theme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-    }
 
     attachShowcaseListeners(); // tiles
-    attachModalButtons();      // modal nav buttons
+    attachModalButtons();    
+<script src="siteNav.js" defer></script>
+
 });
