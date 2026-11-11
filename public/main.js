@@ -102,6 +102,19 @@ function loadPage(url) {
     xhttp.send();
 }
 
+// ========== INITIAL SETUP ==========
+document.addEventListener("DOMContentLoaded", () => {
+    // Apply saved theme
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+    }
+
+    // Initialize showcase interactions
+    attachShowcaseListeners();
+    attachModalButtons();
+});
 
 
     attachShowcaseListeners(); // tiles
