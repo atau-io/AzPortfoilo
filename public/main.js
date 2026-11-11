@@ -28,8 +28,6 @@ function showProject(index) {
         });
 }
 
-<script src="siteNav.js" defer></script>
-
 // ========== ARROW VISIBILITY ==========
 function updateArrowVisibility() {
     const prev = document.getElementById('prev-project');
@@ -82,13 +80,6 @@ function attachModalButtons() {
     }
 }
 
-// ========== THEME TOGGLE ==========
-function toggleTheme() {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-}
-
 // ========== PAGE CONTENT LOADER ==========
 function loadPage(url) {
     const xhttp = new XMLHttpRequest();
@@ -104,18 +95,7 @@ function loadPage(url) {
 
 // ========== INITIAL SETUP ==========
 document.addEventListener("DOMContentLoaded", () => {
-    // Apply saved theme
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme === "dark") {
-        document.body.classList.add("dark-mode");
-    }
-
-    // Initialize showcase interactions
     attachShowcaseListeners();
     attachModalButtons();
 });
 
-
-
-});
