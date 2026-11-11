@@ -23,4 +23,8 @@ body:not(.dark-mode){--page-bg:#f5f5f7;--page-surface:#fff;--page-text:#1d2531;-
 .project-main a:not(.project-button){color:var(--page-accent)}
 .project-footer{text-align:center;border-top:1px solid var(--page-border);color:var(--page-muted);padding:25px}
 .project-note{border-left:3px solid var(--page-accent);padding:13px 18px;background:var(--page-surface);color:var(--page-muted)}
+a.project-button:not(.secondary) {
+    background-color: var(--page-accent);
+    color: var(--page-bg);
+}
 @media(max-width:620px){.project-main{padding:28px 17px 60px}.project-hero{padding-top:12px}.project-actions{flex-direction:column}.project-button{width:100%}}
