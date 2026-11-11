@@ -28,6 +28,8 @@ function showProject(index) {
         });
 }
 
+<script src="siteNav.js" defer></script>
+
 // ========== ARROW VISIBILITY ==========
 function updateArrowVisibility() {
     const prev = document.getElementById('prev-project');
@@ -104,6 +106,6 @@ function loadPage(url) {
 
     attachShowcaseListeners(); // tiles
     attachModalButtons();    
-<script src="siteNav.js" defer></script>
+
 
 });
