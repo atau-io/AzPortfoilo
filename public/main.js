@@ -117,8 +117,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-    attachShowcaseListeners(); // tiles
-    attachModalButtons();    
-
 
 });
