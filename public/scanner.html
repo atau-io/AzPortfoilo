@@ -4,57 +4,37 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Morning Market Scanner | ATau Realms</title>
-  <link rel="stylesheet" href="navBarStyle.css">
-  <style>
-    :root { color-scheme:dark; --accent:#ff981d; --line:#363636; }
-    *{box-sizing:border-box} body{margin:0;background:#0e0e0f;color:#f4f4f4;font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
-    .site-header{background:#101010;border-bottom:1px solid #292929;text-align:center;padding:22px 20px 10px}
-    .site-header h1{font-size:clamp(1.4rem,3vw,2rem);margin:0 0 18px;font-weight:750}
-    .site-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 24px;align-items:center}
-    .site-nav>a,.menu>button{color:var(--accent);font:inherit;text-decoration:none;background:transparent;border:0;padding:10px;cursor:pointer}
-    .menu{position:relative}.menu-list{display:none;position:absolute;top:100%;right:0;background:#1a1a1a;border:1px solid var(--line);min-width:220px;z-index:10;text-align:left;box-shadow:0 12px 24px #0008}
-    .menu:hover .menu-list,.menu:focus-within .menu-list{display:block}.menu-list a{display:block;padding:12px 16px;color:var(--accent);text-decoration:none}.menu-list a:hover{background:#303030}
-    main{max-width:1040px;margin:auto;padding:60px 24px 80px}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.16em;font-size:.78rem;font-weight:750}
-    h2{font-size:clamp(2.3rem,5vw,4rem);line-height:1.12;margin:12px 0 20px} .lead{max-width:690px;color:#c9c9c9;font-size:1.12rem}
-    .hero{padding:40px 0 56px;border-bottom:1px solid var(--line)} .buttons{display:flex;flex-wrap:wrap;gap:12px;margin:30px 0 14px}
-    .button{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#141414;border-radius:8px;padding:13px 23px;font-weight:800;text-decoration:none}
-    .button.secondary{background:#242424;color:#eee;border:1px solid #555}.button:hover{filter:brightness(1.12)}.small{font-size:.85rem;color:#a9a9a9}
-    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin:30px 0 44px}.card{border:1px solid var(--line);background:#191919;border-radius:12px;padding:23px}.card h3{margin:0 0 8px;font-size:1.12rem}.card p{margin:0;color:#bdbdbd}
-    section h3{font-size:1.4rem} ol{padding-left:23px} li{margin:8px 0} a{color:var(--accent)}footer{text-align:center;color:#999;border-top:1px solid var(--line);padding:24px}
-    @media(max-width:550px){main{padding:35px 18px 55px}.hero{padding-top:20px}}
-  </style>
+  <link rel="stylesheet" href="css/ATauFullStyle.css">
+  <link rel="stylesheet" href="project-pages.css">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
 </head>
-<body>
-  <header class="site-header">
-    <h1>ATau Realms – Builder of Things</h1>
-    <nav class="site-nav" aria-label="Main navigation">
-      <a href="index.html">Home</a>
-      <div class="menu"><button type="button">Showcase ⌄</button><div class="menu-list"><a href="index.html">Explore projects</a></div></div>
-      <a href="index.html">Submit an Issue</a>
-      <div class="menu"><button type="button">Developer Tools ⌄</button><div class="menu-list"><a href="scanner.html" aria-current="page">Morning Market Scanner</a></div></div>
-    </nav>
-  </header>
-  <main>
-    <div class="hero">
-      <div class="eyebrow">Developer Tools / Windows application</div>
+<body class="dark-mode">
+  <header id="navbar-placeholder"></header>
+  <main class="project-main">
+    <section class="project-hero">
+      <div class="project-eyebrow">Developer Tools / Windows application</div>
       <h2>Morning Market Scanner</h2>
-      <p class="lead">A desktop workspace for exploring market opportunities, researching companies, tracking watchlists, and monitoring stocks—all in one place.</p>
-      <div class="buttons">
-        <a class="button" id="download" href="https://atportfolio.z5.web.core.windows.net/scanner-updates/releases/MorningMarketScanner-Setup-3.8.2.exe">↓ Download for Windows</a>
-        <a class="button secondary" href="https://atportfolio.z5.web.core.windows.net/scanner-updates/latest.json" target="_blank" rel="noopener noreferrer">View latest release</a>
+      <p class="project-lead">A desktop workspace for exploring market opportunities, researching companies, tracking watchlists, and monitoring stocks—all in one place.</p>
+      <div class="project-actions">
+        <a class="project-button" id="download" href="https://atportfolio.z5.web.core.windows.net/scanner-updates/releases/MorningMarketScanner-Setup-3.8.2.exe">↓ Download for Windows</a>
+        <a class="project-button secondary" href="https://atportfolio.z5.web.core.windows.net/scanner-updates/latest.json" target="_blank" rel="noopener noreferrer">View release information</a>
       </div>
-      <p class="small" id="version">Windows installer · Version 3.8.2 · Free to download</p>
-    </div>
-    <div class="cards">
-      <div class="card"><h3>Market Scanner</h3><p>Explore stocks by sector, price, and technical signals.</p></div>
-      <div class="card"><h3>Company Research</h3><p>Review company profiles, financial metrics, and leadership information.</p></div>
-      <div class="card"><h3>Watchlists & Alerts</h3><p>Organize stocks you're following and monitor changes.</p></div>
-      <div class="card"><h3>Penny Discovery</h3><p>Find lower-priced stocks with configurable screening criteria.</p></div>
-    </div>
-    <section><h3>Getting started</h3><ol><li>Download the Windows installer above.</li><li>Run the setup file and follow the installation prompts.</li><li>Launch Morning Market Scanner from your Start menu.</li><li>Use <strong>Tools & Learning → Updates</strong> to check for new releases.</li></ol>
-      <p class="small">Windows may display a SmartScreen warning for an unsigned installer. Only run software from sources you trust. Market data is informational and not investment advice.</p>
+      <p class="project-small" id="version">Windows installer · Version 3.8.2 (listed download) · Free to download</p>
+    </section>
+    <section class="project-section" aria-label="Features">
+      <div class="project-cards">
+        <article class="project-card"><h4>Market Scanner</h4><p>Explore stocks by sector, price, and technical signals.</p></article>
+        <article class="project-card"><h4>Company Research</h4><p>Review company profiles, financial metrics, and leadership information.</p></article>
+        <article class="project-card"><h4>Watchlists &amp; Alerts</h4><p>Organize stocks you're following and monitor changes.</p></article>
+        <article class="project-card"><h4>Penny Discovery</h4><p>Find lower-priced stocks with configurable screening criteria.</p></article>
+      </div>
+    </section>
+    <section class="project-section"><h3>Getting started</h3>
+      <ol class="project-list"><li>Download the Windows installer above.</li><li>Run the setup file and follow the installation prompts.</li><li>Launch Morning Market Scanner from your Start menu.</li><li>Use the application's update controls to check for new releases.</li></ol>
+      <p class="project-small">Windows may display a SmartScreen warning for an unsigned installer. Only run software from sources you trust. Market data is informational and not investment advice.</p>
     </section>
   </main>
-  <footer>ATau Realms · Morning Market Scanner</footer>
+  <footer class="project-footer">ATau Realms · Morning Market Scanner</footer>
+  <script src="siteNav.js" defer></script>
 </body>
 </html>
