@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "applicationId": "app.charactercompanion.mobile",
+  "channel": "stable",
+  "latestVersion": "10.10.8",
+  "minimumSupportedVersion": "10.10.6",
+  "publishedAt": "2026-11-12T05:08:10Z",
+  "releaseNotes": "Character Companion 10.10.8— General feedback and dice update.",
+  "mandatory": false,
+  "platforms": {
+    "android": {
+      "versionName": "10.10.8",
+      "versionCode": 13,
+      "url": "https://atportfolio.z5.web.core.windows.net/character-companion-updates/releases/CharacterCompanion-10.10.8.apk",
+      "sha256": "8254f983c64c1f8d13b2d98cde1dc5377fb1defa1a25b89b7a7b5c10889cb6a5"
+    }
+  }
+}
