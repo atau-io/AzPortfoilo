@@ -100,7 +100,8 @@ async function setupCharacterCompanionDownload() {
 
     if (
       downloadUrl.protocol !== "https:" ||
-      downloadUrl.origin !== new URL(MANIFEST_URL).origin
+   downloadUrl.origin !==
+  "https://atportfolio.z5.web.core.windows.net"
     ) {
       throw new Error("Unexpected APK download location");
     }
