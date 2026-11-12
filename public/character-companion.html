@@ -17,7 +17,13 @@
       <h2>Character Companion</h2>
       <p class="project-lead">Create, organize, and play your Dungeons &amp; Dragons characters with a character sheet built for the table. Explore your abilities, manage equipment and spells, and keep essential combat information close at hand.</p>
       <div class="project-actions">
-        <a class="project-button" id="download" href="https://atportfolio.z5.web.core.windows.net/character-companion-updates/releases/characterCompanion10.10.6.apk">↓ Download for Android</a>
+        <a
+  class="project-button"
+  id="download"
+  href="#"
+>
+  ↓ Download for Android
+</a>
         <span class="project-button secondary" aria-disabled="true">Windows download · Coming soon</span>
         <a class="project-button secondary" href="https://forms.gle/79UfDg4RTtp3MhYa6">Report an issue</a>
       </div>
@@ -58,5 +64,63 @@
   </main>
   <footer class="project-footer">ATau Realms · Character Companion</footer>
   <script src="siteNav.js" defer></script>
+
+const MANIFEST_URL =
+  "https://atportfolio.z5.web.core.windows.net/character-companion-updates/releases/latest.json";
+
+async function setupCharacterCompanionDownload() {
+  const button = document.getElementById("download");
+  if (!button) return;
+
+  button.removeAttribute("href");
+  button.textContent = "↓ Checking latest version...";
+
+  try {
+    const response = await fetch(MANIFEST_URL, {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`Manifest HTTP ${response.status}`);
+    }
+
+    const manifest = await response.json();
+    const android = manifest.platforms?.android;
+
+    if (
+      manifest.schemaVersion !== 1 ||
+      typeof manifest.latestVersion !== "string" ||
+      !android ||
+      !Number.isInteger(android.versionCode) ||
+      typeof android.url !== "string"
+    ) {
+      throw new Error("Invalid release manifest");
+    }
+
+    const downloadUrl = new URL(android.url);
+
+    if (
+      downloadUrl.protocol !== "https:" ||
+      downloadUrl.origin !== new URL(MANIFEST_URL).origin
+    ) {
+      throw new Error("Unexpected APK download location");
+    }
+
+    button.href = downloadUrl.href;
+    button.textContent =
+      `↓ Download for Android (v${manifest.latestVersion})`;
+
+    button.title = `Android build ${android.versionCode}`;
+
+  } catch (error) {
+    console.error("Character Companion release error:", error);
+    button.removeAttribute("href");
+    button.textContent = "Download temporarily unavailable";
+  }
+}
+
+setupCharacterCompanionDownload();
+
+  
 </body>
 </html>
